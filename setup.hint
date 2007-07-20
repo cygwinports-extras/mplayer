@@ -1,0 +1,13 @@
+category: Audio Video
+requires: cygwin arts glib2 gtk2-x11 libGL1 libSDL12 libX11_6 libXext6 liba52_0 libaa1 libaudio2 libavcodec51 libavformat51 libavutil49 libcaca0 libcdio7 libdv4 libdvdnav4 libesound0 libfaac0 libfaad0 libfontconfig1 libfreetype26 libfribidi0 libggi2 libggiwmh0 libiconv2 libjpeg62 libmad libmp3lame0 libmpcdec5 libncurses8 libogg0 libopenal0 libpng12 libpostproc51 libspeex1 libtheora0 libtwolame0 libungif4 libvorbis0 libx264_54 libxvidcore4 lzo zlib
+sdesc: "Multimedia player and encoder"
+ldesc: "MPlayer can play most standard video formats out of the box and 
+almost all others with the help of external codecs. MPlayer currently 
+works best from the command line, but visual feedback for many functions 
+is available from its onscreen status display (OSD), which is also used 
+for displaying subtitles. MPlayer also has a GUI with skin support and 
+several unofficial alternative graphical frontends are available.
+
+MEncoder is a command line video encoder for advanced users that can be
+built from the MPlayer source tree. An unofficial graphical frontend
+exists but is not included."
