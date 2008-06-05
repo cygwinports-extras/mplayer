@@ -13,7 +13,7 @@ exists but is not included.
 
 Runtime requirements:
   cygwin-1.5.25-11
-  glib2-2.14.6-1
+  glib2-2.16.41
   gtk2-x11-2.12.9-1
   libGL1-7.0.3-1
   libSDL12-1.2.13-1
@@ -22,14 +22,15 @@ Runtime requirements:
   libcdio_cdda0-0.80-2
   libcdio_paranoia0-0.80-2
   libdca0-0.0.5-2
+  libdirac10-0.10.0-1
   libdv4-1.0.0-1
   libdvdread3-0.9.7-1
   libenca0-1.9-1
-  libfaac0-1.26-1
-  libfaad0-2.6-1
-  libfontconfig1-2.3.2-2
+  libfaac0-1.26-2
+  libfaad0-2.6.1-1
+  libfontconfig1-2.6.0-1
   libfreetype26-2.3.5-1
-  libfribidi0-0.10.7-2
+  libfribidi0-0.10.9-1
   libgif4-4.1.6-1
   libiconv2-1.11-1
   libjpeg62-6b-12
@@ -39,7 +40,7 @@ Runtime requirements:
   libmpcdec5-1.2.6-1
   libncurses8-5.5-3
   libnut0-658-1
-  libpng12-1.2.27-1
+  libpng12-1.2.29-1
   libspeex1-1.2beta3-1
   libtheora0-1.0beta3-1
   libtwolame0-0.3.10-1
@@ -50,7 +51,7 @@ Runtime requirements:
 Build requirements:
 (besides corresponding -devel packages)
   binutils-20060817-1
-  cygport-0.3.10-1
+  cygport-0.3.11-1
   gcc-core-3.4.4-3
   make-3.81-1
   pkg-config-0.21-1
@@ -66,20 +67,21 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack mplayer-26877-X-src.tar.bz2
+  unpack mplayer-26991-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./mplayer-26877-X.cygport all
+  cygport ./mplayer-26991-X.cygport all
 
 This will create:
-  /usr/src/mplayer-26877-X-src.tar.bz2
-  /usr/src/mplayer-26877-X.tar.bz2
+  /usr/src/mplayer-26991-X-src.tar.bz2
+  /usr/src/mplayer-26991-X.tar.bz2
 
 -------------------------------------------
 
 Files included in the binary package:
 
+  /etc/mplayer/codecs.conf
   /etc/mplayer/input.conf
   /etc/mplayer/menu.conf
   /etc/mplayer/mplayer.conf
@@ -90,11 +92,11 @@ Files included in the binary package:
   /usr/bin/midentify
   /usr/bin/mplayer.exe
   /usr/share/applications/mplayer.desktop
-  /usr/share/doc/mplayer-26877/AUTHORS
-  /usr/share/doc/mplayer-26877/COPYRIGHT
-  /usr/share/doc/mplayer-26877/ChangeLog
-  /usr/share/doc/mplayer-26877/LICENSE
-  /usr/share/doc/mplayer-26877/README
+  /usr/share/doc/mplayer-26991/AUTHORS
+  /usr/share/doc/mplayer-26991/COPYRIGHT
+  /usr/share/doc/mplayer-26991/ChangeLog
+  /usr/share/doc/mplayer-26991/LICENSE
+  /usr/share/doc/mplayer-26991/README
   /usr/share/man/cs/man1/mencoder.1.gz
   /usr/share/man/cs/man1/mplayer.1.gz
   /usr/share/man/de/man1/mencoder.1.gz
@@ -226,7 +228,7 @@ Files included in the binary package:
 
 Port Notes:
 
------ version 26877-1 -----
+----- version 26991-1 -----
 Updated SVN snapshot.
 
 ----- version 24790-1 -----

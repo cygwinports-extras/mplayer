@@ -1,0 +1,247 @@
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/mplayer/Makefile src/mplayer/Makefile
+--- origsrc/mplayer/Makefile	2008-06-04 21:04:48.000000000 -0500
++++ src/mplayer/Makefile	2008-06-04 21:07:53.625000000 -0500
+@@ -620,7 +620,7 @@
+ COMMON_LIBS-$(LIBAVCODEC_A)       += libavcodec/libavcodec.a
+ COMMON_LIBS-$(LIBAVUTIL_A)        += libavutil/libavutil.a
+ COMMON_LIBS-$(LIBPOSTPROC_A)      += libpostproc/libpostproc.a
+-COMMON_LIBS  = libswscale/libswscale.a
++COMMON_LIBS-$(LIBSWSCALE_A)       += libswscale/libswscale.a
+ COMMON_LIBS += $(COMMON_LIBS-yes)
+ 
+ OBJS_COMMON    += $(addsuffix .o, $(basename $(SRCS_COMMON)))
+@@ -919,7 +919,7 @@
+ TOOLS/bmovl-test$(EXESUF): TOOLS/bmovl-test.c -lSDL_image
+ 
+ TOOLS/subrip$(EXESUF): TOOLS/subrip.c vobsub.o spudec.o unrar_exec.o \
+-  libvo/aclib.o libswscale/libswscale.a libavutil/libavutil.a \
++  libvo/aclib.o $(AV_LIB) \
+   $(TEST_OBJS)
+ 
+ TOOLS/vfw2menc$(EXESUF): TOOLS/vfw2menc.c -lwinmm -lole32
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/mplayer/configure src/mplayer/configure
+--- origsrc/mplayer/configure	2008-06-04 21:07:27.859375000 -0500
++++ src/mplayer/configure	2008-06-04 21:07:53.656250000 -0500
+@@ -299,10 +299,12 @@
+   --disable-libavcodec_a    disable static libavcodec [autodetect]
+   --disable-libavformat_a   disable static libavformat [autodetect]
+   --disable-libpostproc_a   disable static libpostproc [autodetect]
++  --disable-libswscale_a    disable static libswscale [autodetect]
+   --disable-libavutil_so    disable shared libavutil [autodetect]
+   --disable-libavcodec_so   disable shared libavcodec [autodetect]
+   --disable-libavformat_so  disable shared libavformat [autodetect]
+   --disable-libpostproc_so  disable shared libpostproc [autodetect]
++  --disable-libswscale_so   disable shared libswscale [autodetect]
+   --disable-libavcodec_mpegaudio_hp disable high precision audio decoding
+                                     in libavcodec [enabled]
+   --disable-tremor-internal disable internal Tremor [enabled]
+@@ -518,6 +520,8 @@
+ _libavformat_so=auto
+ _libpostproc_a=auto
+ _libpostproc_so=auto
++_libswscale_a=auto
++_libswscale_so=auto
+ _libavcodec_mpegaudio_hp=yes
+ _mencoder=yes
+ _mplayer=yes
+@@ -1082,6 +1086,10 @@
+   --disable-libpostproc_a)	_libpostproc_a=no	;;
+   --enable-libpostproc_so)	_libpostproc_so=yes	;;
+   --disable-libpostproc_so)	_libpostproc_so=no	;;
++  --enable-libswscale_a)	_libswscale_a=yes	;;
++  --disable-libswscale_a)	_libswscale_a=no	;;
++  --enable-libswscale_so)	_libswscale_so=yes	;;
++  --disable-libswscale_so)	_libswscale_so=no	;;
+   --enable-libavcodec_mpegaudio_hp)	_libavcodec_mpegaudio_hp=yes	;;
+   --disable-libavcodec_mpegaudio_hp)	_libavcodec_mpegaudio_hp=no	;;
+ 
+@@ -1379,16 +1387,12 @@
+   # -lwinmm is always needed for osdep/timer-win2.c
+   _ld_extra="$_ld_extra -lwinmm"
+   _pe_executable=yes
+-  _timer=timer-win2.c
+ fi
+ 
+ if mingw32 ; then
+   _getch=getch2-win.c
+   _need_shmem=no
+-fi
+-
+-if cygwin ; then
+-  _def_confwin32='#define WIN32'
++  _timer=timer-win2.c
+ fi
+ 
+ if amigaos ; then
+@@ -1527,7 +1531,7 @@
+ 
+ # Cygwin has /proc/cpuinfo, but only supports Intel CPUs
+ # FIXME: Remove the cygwin check once AMD CPUs are supported
+-if test -r /proc/cpuinfo && ! cygwin; then
++if test -r /proc/cpuinfo; then
+   # Linux with /proc mounted, extract CPU information from it
+   _cpuinfo="cat /proc/cpuinfo"
+ elif test -r /compat/linux/proc/cpuinfo && ! x86_32 ; then
+@@ -4286,7 +4290,7 @@
+   _def_vidix_pfx='#define MP_VIDIX_PFX "" '
+ fi
+ 
+-if test "$_vidix" = yes && win32; then
++if test "$_vidix" = yes && mingw32; then
+   _vosrc="$_vosrc vo_winvidix.c"
+   _vomodules="winvidix $_vomodules"
+   _libs_mplayer="$_libs_mplayer -lgdi32"
+@@ -4787,10 +4791,7 @@
+ fi
+ if test "$_sdl" = yes ; then
+   _def_sdl='#define HAVE_SDL 1'
+-  if cygwin ; then
+-    _libs_mplayer="$_libs_mplayer `$_sdlconfig --libs | cut -d " " -f 1,4,6 | sed s/no-cygwin/cygwin/`"
+-    _inc_extra="$_inc_extra `$_sdlconfig --cflags | cut -d " " -f 1,5,6 | sed s/no-cygwin/cygwin/`"
+-  elif mingw32 ; then
++  if mingw32 ; then
+     _libs_mplayer="$_libs_mplayer `$_sdlconfig --libs | sed -e s/-mwindows// -e s/-lmingw32//`"
+     _inc_extra="$_inc_extra `$_sdlconfig --cflags | sed s/-Dmain=SDL_main//`"
+   else
+@@ -6485,6 +6486,36 @@
+   && _def_libpostproc_so='#define USE_LIBPOSTPROC_SO 1'
+ echores "$_libpostproc"
+ 
++echocheck "FFmpeg libswscale"
++if test "$_libswscale_a" = auto ; then
++  _libswscale_a=no
++  if test -d libswscale && test -f libswscale/swscale.h ; then
++    _libswscale_a='yes'
++    _res_comment="static"
++  fi
++elif test "$_libswscale_so" = auto ; then
++  _libswscale_so=no
++  cat > $TMPC << EOF
++  #define USE_LIBSWSCALE 1
++  #include <libswscale/swscale.h>
++  int main(void) { sws_getIdentityVec(); return 0; }
++EOF
++  if cc_check -lswscale $_ld_lm ; then
++    _ld_extra="$_ld_extra -lswscale"
++    _libswscale_so=yes
++    _res_comment="using libswscale.so, but static libswscale is recommended"
++  fi
++fi
++_libswscale=no
++_def_libswscale='#undef USE_LIBSWSCALE'
++_def_libswscale_a='#undef USE_LIBSWSCALE_A'
++_def_libswscale_so='#undef USE_LIBSWSCALE_SO'
++test "$_libswscale_a" = yes || test "$_libswscale_so" = yes && _libswscale=yes
++test "$_libswscale"    = yes && _def_libswscale='#define USE_LIBSWSCALE 1'
++test "$_libswscale_a"  = yes && _def_libswscale_a='#define USE_LIBSWSCALE_A 1'
++test "$_libswscale_so" = yes \
++  && _def_libswscale_so='#define USE_LIBSWSCALE_SO 1'
++echores "$_libswscale"
+ 
+ echocheck "libamr narrowband"
+ if test "$_libamr_nb" = auto ; then
+@@ -7307,7 +7338,7 @@
+   fi
+   test "$_freetype" = no && test "$_bitmap_font" = no && \
+     die "The GUI requires either FreeType or bitmap font support."
+-if ! win32 ; then
++if ! mingw32 ; then
+   _gui_gtk=yes
+   test "$_x11" != yes && die "X11 support required for GUI compilation."
+ 
+@@ -7334,7 +7365,7 @@
+   return exitvar;
+ }
+ EOF
+-    cc_check -lXext && _xshape=yes
++    cc_check -lXext -lX11 && _xshape=yes
+   fi
+   if test "$_xshape" = yes ; then
+     _def_xshape='#define HAVE_XSHAPE 1'
+@@ -7409,12 +7440,12 @@
+   _def_gtk2_gui='#undef HAVE_GTK2_GUI'
+ fi
+ 
+-else #if ! win32
++else #if ! mingw32
+   _gui_win32=yes
+   _libs_mplayer="$_libs_mplayer -lcomdlg32 -lcomctl32 -lshell32 -lkernel32"
+   _def_gui='#define HAVE_NEW_GUI 1'
+   _def_gtk2_gui='#undef HAVE_GTK2_GUI'
+-fi #if ! win32
++fi #if ! mingw32
+ 
+ else #if test "$_gui"
+   _def_gui='#undef HAVE_NEW_GUI'
+@@ -7858,6 +7889,9 @@
+ LIBPOSTPROC = $_libpostproc
+ LIBPOSTPROC_A = $_libpostproc_a
+ LIBPOSTPROC_SO = $_libpostproc_so
++LIBSWSCALE = $_libswscale
++LIBSWSCALE_A = $_libswscale_a
++LIBSWSCALE_SO = $_libswscale_so
+ 
+ BUILD_STATIC=yes
+ SRC_PATH=..
+@@ -8238,6 +8272,10 @@
+ $_def_libavutil_a
+ $_def_libavutil_so
+ 
++$_def_libswscale
++$_def_libswscale_a
++$_def_libswscale_so
++
+ /* Use libavcodec's decoders */
+ #define CONFIG_DECODERS 1
+ #define ENABLE_DECODERS 1
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/mplayer/get_path.c src/mplayer/get_path.c
+--- origsrc/mplayer/get_path.c	2008-06-04 21:04:49.000000000 -0500
++++ src/mplayer/get_path.c	2008-06-04 21:07:53.656250000 -0500
+@@ -49,7 +49,7 @@
+ 	if ((homedir = getenv("MPLAYER_HOME")) != NULL)
+ 		config_dir = "";
+ 	else if ((homedir = getenv("HOME")) == NULL)
+-#if defined(__MINGW32__) || defined(__CYGWIN__)
++#if defined(__MINGW32__)
+ 	/* Hack to get fonts etc. loaded outside of Cygwin environment. */
+ 	{
+ 		int i,imax=0;
+diff -urN -x CYGWIN-PATCHES -x 'aclocal.m4~' -x aclocal.m4t -x autom4te.cache -x config.cache -x config.log -x config.status -x config.h -x '*config.h.in' -x ABOUT-NLS -x Makefile.in.in -x Makevars.template -x '*SlackBuild*' -x '*.egg-info' -x '*.class' -x '*.pyc' -x '*.mo' -x '*.gmo' -x '*.orig' -x '*.rej' -x '*.spec' -x '*.temp' -x '*~' -x '*.stackdump' -x COPYING -x INSTALL -x compile -x config-ml.in -x config.guess -x config.sub -x depcomp -x elisp-comp -x install-sh -x libtool.m4 -x ltoptions.m4 -x ltsugar.m4 -x ltversion.m4 -x 'lt~obsolete.m4' -x ltmain.sh -x mdate-sh -x missing -x mkinstalldirs -x py-compile -x symlink-tree -x texinfo.tex -x ylwrap -x config.rpath -x omf.make -x xmldocs.make -x gnome-doc-utils.make -x gnome-doc-utils.m4 -x intltool.m4 -x intltool-extract -x intltool-extract.in -x intltool-merge -x intltool-merge.in -x intltool-update -x intltool-update.in origsrc/mplayer/stream/stream_cddb.c src/mplayer/stream/stream_cddb.c
+--- origsrc/mplayer/stream/stream_cddb.c	2008-06-04 21:02:01.000000000 -0500
++++ src/mplayer/stream/stream_cddb.c	2008-06-04 21:07:53.671875000 -0500
+@@ -22,7 +22,7 @@
+ #include <unistd.h>
+ #include <string.h>
+ #include <limits.h>
+-#ifdef WIN32
++#if defined(WIN32) || defined(__CYGWIN__)
+ #ifdef __MINGW32__
+ #define mkdir(a,b) mkdir(a)
+ #endif
+@@ -44,7 +44,7 @@
+ 	#include <linux/cdrom.h>
+ #elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
+ 	#include <sys/cdio.h>
+-#elif defined(WIN32)
++#elif defined(WIN32) || defined(__CYGWIN__)
+         #include <ddk/ntddcdrm.h>
+ #elif (__bsdi__)
+         #include <dvd.h>
+@@ -72,7 +72,7 @@
+ read_toc(const char *dev) {
+ 	int first = 0, last = -1;
+ 	int i;
+-#ifdef WIN32
++#if defined(WIN32) || defined(__CYGWIN__)
+         HANDLE drive;
+         DWORD r;
+         CDROM_TOC toc;
+@@ -326,7 +326,7 @@
+ 	sprintf( file_name, "%s%08lx", cddb_data->cache_dir, cddb_data->disc_id);
+ 	
+ 	file_fd = open(file_name, O_RDONLY
+-#ifdef WIN32
++#if defined(WIN32) || defined(__CYGWIN__)
+ 	| O_BINARY
+ #endif
+ 	);
