@@ -10,7 +10,10 @@ SRC_URI+="
 	mirror://mplayer/skins/Blue-small-1.4.tar.bz2
 	mirror://mplayer/skins/standard-1.9.tar.bz2
 "
-PATCH_URI="http://dirac.cvs.sourceforge.net/*checkout*/dirac/compress/extras/patches/mplayersvn_trunk_revision_26980-dirac-0.10.x.patch"
+
+PATCH_URI="r28798-cygwin.patch
+           r28798-as-needed.patch
+           r28804-gmplayer-BadAccess.patch"
 
 skins="Blue Blue-small standard"
 
@@ -45,7 +48,7 @@ myconf="
   --disable-tv-bsdbt848
   --disable-pvr
   --enable-network
-  --disable-winsock2
+  --disable-winsock2_h
   --disable-smb
   --disable-libamr_nb
   --disable-libamr_wb
@@ -54,7 +57,7 @@ myconf="
   --disable-cdparanoia
   --disable-macosx
   --disable-maemo
-  --disable-macosx-finder-support
+  --disable-macosx-finder
   --disable-macosx-bundle
   --disable-inet6
   --disable-rpath
@@ -65,29 +68,21 @@ myconf="
   --disable-libavformat_so
   --disable-libpostproc_so
   --disable-libswscale_so
-  --enable-faad-external
+  --disable-liba52-internal
   --disable-faad-internal
   --disable-dvdread-internal
   --disable-libdvdcss-internal
-  --disable-ladspa
-  --disable-libschroedinger
 
-  --disable-vidix-internal
-  --disable-vidix-external
-  --disable-aa
-  --disable-caca
-  --disable-ggi
-  --disable-ggiwmh
+  --disable-vidix
   --disable-dga1
   --disable-dga2
+  --disable-direct3d
   --disable-directx
   --disable-vesa
   --disable-svga
   --disable-xv
   --disable-xvmc
   --disable-vm
-  --disable-xinerama
-  --disable-xss
   --disable-fbdev
   --disable-mlib
   --disable-3dfx
@@ -99,14 +94,12 @@ myconf="
   --disable-tdfxvid
 
   --disable-alsa
-  --disable-arts
-  --disable-esd
-  --disable-jack
-  --disable-nas
+  --disable-dart
   --disable-openal
   --disable-pulse
   --disable-sgiaudio
   --disable-sunaudio
+  --disable-win32waveout
 
   --enable-runtime-cpudetection
   --disable-cross-compile
@@ -123,7 +116,6 @@ src_compile() {
 	cd ${B}
 	unset CFLAGS
 	verbose ${S}/configure ${myconf} || error "configure failed"
-#	rm -fr libav{codec,format,util}/ libpostproc/ libswscale/
 	cygmake
 }
 
@@ -166,5 +158,5 @@ EOT
 	doins ${S}/etc/input.conf
 	doins ${S}/etc/menu.conf
 
-	dobin ${S}/TOOLS/{aconvert,mencvcd,midentify}
+	dobin ${S}/TOOLS/{aconvert,mencvcd,midentify}.sh
 }
