@@ -1,5 +1,5 @@
 category: Audio Video
-requires: cygwin liba52_0 libaa1 libartsc0 libaudio2 libbz2_1 libcaca0 libcdio_cdda0 libcdio_paranoia0 libdca0 libdirac0 libdv4 libdvdread4 libenca0 libesd0 libfaac0 libfaad2 libfontconfig1 libfreetype6 libfribidi0 libggi2 libggiwmh0 libgif4 libGL1 libglib2.0_0 libgtk2.0_0 libiconv2 libjack0 libjpeg62 liblzo2_2 libmad0 libmng1 libmp3lame0 libmpcdec5 libnut0 libpng12 libschroedinger1.0_0 libSDL1.2_0 libspeex1 libtheora0 libtwolame0 libX11_6 libx264_66 libXext6 libXinerama1 libXss1 libxvidcore4 zlib
+requires: liba52_0 libaa1 libartsc0 libaudio2 libbz2_1 libcaca0 libcdio_cdda0 libcdio_paranoia0 libdca0 libdirac0 libdv4 libdvdread4 libenca0 libesd0 libfaac0 libfaad2 libfontconfig1 libfreetype6 libfribidi0 libggi2 libggiwmh0 libgif4 libGL1 libglib2.0_0 libgtk2.0_0 libiconv2 libjack0 libjpeg62 liblzo2_2 libmad0 libmng1 libmp3lame0 libmpcdec5 libnut0 libpng12 libschroedinger1.0_0 libSDL1.2_0 libspeex1 libtheora0 libtwolame0 libX11_6 libx264_66 libXext6 libXinerama1 libXss1 libxvidcore4 zlib
 sdesc: "Multimedia player and encoder"
 ldesc: "MPlayer can play most standard video formats out of the box and 
 almost all others with the help of external codecs. MPlayer currently 
