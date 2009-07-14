@@ -12,63 +12,59 @@ built from the MPlayer source tree. An unofficial graphical frontend
 exists but is not included.
 
 Runtime requirements:
-  cygwin-1.5.25-15
-  liba52_0-0.7.4-3
+  cygwin-1.7.0-50
+  liba52_0-0.7.4-10
   libaa1-1.4rc5-3
-  libartsc0-1.5.10-1
-  libaudio2-1.9.1-2
-  libbz2_1-1.0.5-2
-  libcaca0-0.99.16-1
-  libcdio_cdda0-0.81-1
-  libcdio_paranoia0-0.81-1
-  libdca0-0.0.5-2
-  libdirac0-1.0.0-1
-  libdv4-1.0.0-1
-  libdvdread4-4.1.3-1
-  libenca0-1.9-1
-  libesd0-0.2.41-1
-  libfaac0-1.28-1
-  libfaad2-2.7-1
-  libfontconfig1-2.6.0-1
-  libfreetype6-2.3.8-1
-  libfribidi0-0.10.9-1
-  libggi2-2.2.2-1
-  libggiwmh0-0.3.2-1
-  libgif4-4.1.6-2
-  libGL1-7.2-2
-  libglib2.0_0-2.18.4-1
-  libgtk2.0_0-2.14.7-2
-  libiconv2-1.12-1
-  libjack0-0.116.2-1
-  libjpeg62-6b-12
-  liblzo2_2-2.02-1
-  libmad0-0.15.1b-5
+  libartsc0-1.5.10-10
+  libaudio2-1.9.2-1
+  libbs2b0-3.1.0-1
+  libbz2_1-1.0.5-10
+  libcaca0-0.99.beta16-11
+  libcdio_cdda0-0.81-10
+  libcdio_paranoia0-0.81-10
+  libdirac0-1.0.2-10
+  libdv4-1.0.0-10
+  libdvdread4-4.1.3-10
+  libesd0-0.2.41-10
+  libfaac0-1.28-10
+  libfaad2-2.7-10
+  libfontconfig1-2.6.0-10
+  libfreetype6-2.3.9-1
+  libgcc1-4.3.2-2
+  libgif4-4.1.6-10
+  libGL1-7.2-10
+  libglib2.0_0-2.20.3-1
+  libgtk2.0_0-2.16.2-1
+  libiconv2-1.13-10
+  libjpeg62-6b-20
+  liblzo2_2-2.03-1
+  libmad0-0.15.1b-10
   libmng1-1.0.10-1
-  libmp3lame0-3.98.2-1
-  libmpcdec5-1.2.6-1
-  libnut0-661-1
-  libpng12-1.2.34-1
-  libschroedinger1.0_0-1.0.5-1
-  libSDL1.2_0-1.2.13-3
+  libmp3lame0-3.98.2-10
+  libmpcdec5-1.2.6-10
+  libnut0-661-10
+  libpng12-1.2.35-10
+  libschroedinger1.0_0-1.0.5-10
+  libSDL1.2_0-1.2.13-10
   libspeex1-1.2rc1-1
-  libtheora0-1.0-1
-  libtwolame0-0.3.12-1
-  libX11_6-1.1.5-2
-  libx264_66-20090301-1
-  libXext6-1.0.4-1
-  libXinerama1-1.0.3-1
-  libXss1-1.1.3-1
-  libxvidcore4-1.2.1-1
-  zlib-1.2.3-2
+  libtheora0-1.0-10
+  libtwolame0-0.3.12-10
+  libX11_6-1.2-10
+  libx264_68-20090712-1
+  libXext6-1.0.5-10
+  libXinerama1-1.0.3-10
+  libXss1-1.1.3-10
+  libxvidcore4-1.2.1-10
+  zlib0-1.2.3-10
 
 Build requirements:
 (besides corresponding -devel packages)
-  binutils-20080624-2
-  cygport-0.4.3-1
-  gcc-core-3.4.4-3
-  libdvdnav-devel-4.1.3-1
-  make-3.81-1
-  pkg-config-0.23a-2
+  binutils-2.19.51-1
+  cygport-0.9.7-1
+  gcc4-core-4.3.2-2
+  libdvdnav-devel-4.1.3-10
+  make-3.81-2
+  pkg-config-0.23b-10
   sed-4.1.5-2
   w32api-3.13-1
 
@@ -81,15 +77,15 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack mplayer-28804-X-src.tar.bz2
+  unpack mplayer-29417-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./mplayer-28804-X.cygport all
+  cygport ./mplayer-29417-X.cygport all
 
 This will create:
-  /usr/src/mplayer-28804-X-src.tar.bz2
-  /usr/src/mplayer-28804-X.tar.bz2
+  /usr/src/mplayer-29417-X-src.tar.bz2
+  /usr/src/mplayer-29417-X.tar.bz2
 
 -------------------------------------------
 
@@ -106,11 +102,11 @@ Files included in the binary package:
   /usr/bin/midentify.sh
   /usr/bin/mplayer.exe
   /usr/share/applications/mplayer.desktop
-  /usr/share/doc/mplayer-28804/AUTHORS
-  /usr/share/doc/mplayer-28804/COPYRIGHT
-  /usr/share/doc/mplayer-28804/ChangeLog
-  /usr/share/doc/mplayer-28804/LICENSE
-  /usr/share/doc/mplayer-28804/README
+  /usr/share/doc/mplayer/AUTHORS
+  /usr/share/doc/mplayer/COPYRIGHT
+  /usr/share/doc/mplayer/ChangeLog
+  /usr/share/doc/mplayer/LICENSE
+  /usr/share/doc/mplayer/README
   /usr/share/man/cs/man1/mencoder.1.gz
   /usr/share/man/cs/man1/mplayer.1.gz
   /usr/share/man/de/man1/mencoder.1.gz
@@ -242,20 +238,8 @@ Files included in the binary package:
 
 Port Notes:
 
------ version 28804-1 -----
-Updated SVN snapshot.
-
------ version 26991-1 -----
-Updated SVN snapshot.
-
------ version 24790-1 -----
-Updated SVN snapshot.
-
------ version 24303-1 -----
-Updated to SVN build.
-
------ version 1.0_rc1-1 -----
-Initial release for Cygwin.
+----- version 29417-1 -----
+Initial release for Cygwin 1.7.
 
 
 Cygwin port maintained by:

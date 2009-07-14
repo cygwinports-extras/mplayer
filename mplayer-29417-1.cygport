@@ -11,8 +11,8 @@ SRC_URI+="
 	mirror://mplayer/skins/standard-1.9.tar.bz2
 "
 
-PATCH_URI="r28798-cygwin.patch
-           r28798-as-needed.patch
+PATCH_URI="r29417-cygwin.patch
+           r29417-as-needed.patch
            r28804-gmplayer-BadAccess.patch"
 
 skins="Blue Blue-small standard"
@@ -55,11 +55,9 @@ myconf="
   --disable-live
   --disable-nemesi
   --disable-cdparanoia
-  --disable-macosx
   --disable-maemo
   --disable-macosx-finder
   --disable-macosx-bundle
-  --disable-inet6
   --disable-rpath
 
   --disable-xanim
@@ -99,23 +97,30 @@ myconf="
   --disable-pulse
   --disable-sgiaudio
   --disable-sunaudio
-  --disable-win32waveout
 
   --enable-runtime-cpudetection
-  --disable-cross-compile
-  --language=all
-
   --disable-altivec
   --disable-armv5te
+  --disable-armv6
+  --disable-armv6t2
+  --disable-armvfp
   --disable-iwmmxt
   --disable-fastmemcpy
+
+  --disable-cross-compile
+  --language=all
 "
 
 src_compile() {
 	lndirs
 	cd ${B}
-	unset CFLAGS
-	verbose ${S}/configure ${myconf} || error "configure failed"
+	# http://lists.mplayerhq.hu/pipermail/mplayer-dev-eng/2006-November/047222.html
+	# -fno-common: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=37216
+#	unset CFLAGS
+	CFLAGS+=" -finline-functions -fno-common -fomit-frame-pointer"
+	verbose ${S}/configure \
+		${myconf} \
+		|| error "configure failed"
 	cygmake
 }
 
@@ -139,9 +144,6 @@ src_install() {
 	# Fix the symlink
 	rm -rf ${D}/usr/bin/gmplayer
 	dosym mplayer.exe /usr/bin/gmplayer
-
-	newicon ${S}/Gui/mplayer/pixmaps/logo.xpm mplayer.xpm
-	make_desktop_entry mplayer "MPlayer" mplayer "AudioVideo;Player;GTK"
 
 	insinto /etc/mplayer
 	newins ${S}/etc/example.conf mplayer.conf

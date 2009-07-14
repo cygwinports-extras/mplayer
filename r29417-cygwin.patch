@@ -1,6 +1,6 @@
---- origsrc/mplayer/configure	2009-03-02 16:56:56.000000000 -0600
-+++ src/mplayer/configure	2009-03-03 02:03:27.508515800 -0600
-@@ -1437,7 +1437,12 @@ elif linux ; then
+--- origsrc/mplayer/configure	2009-07-12 15:02:43.000000000 -0500
++++ src/mplayer/configure	2009-07-12 15:22:54.510470200 -0500
+@@ -1474,7 +1474,12 @@ elif linux ; then
    _ranlib='true'
  fi
  
@@ -13,8 +13,8 @@
 +if mingw32 ; then
    _exesuf=".exe"
    # -lwinmm is always needed for osdep/timer-win2.c
-   _ld_extra="$_ld_extra -lwinmm"
-@@ -1446,9 +1451,6 @@ if win32 ; then
+   extra_ldflags="$extra_ldflags -lwinmm"
+@@ -1483,9 +1488,6 @@ if win32 ; then
    _priority=yes
    def_dos_paths="#define HAVE_DOS_PATHS 1"
    def_priority="#define CONFIG_PRIORITY 1"
@@ -24,7 +24,7 @@
    _getch=getch2-win.c
    _need_shmem=no
  fi
-@@ -1594,7 +1596,7 @@ if test "$_runtime_cpudetection" = no ; 
+@@ -1618,7 +1620,7 @@ if test "$_runtime_cpudetection" = no ; 
  
  # Cygwin has /proc/cpuinfo, but only supports Intel CPUs
  # FIXME: Remove the cygwin check once AMD CPUs are supported
@@ -33,7 +33,7 @@
    # Linux with /proc mounted, extract CPU information from it
    _cpuinfo="cat /proc/cpuinfo"
  elif test -r /compat/linux/proc/cpuinfo && ! x86_32 ; then
-@@ -4569,7 +4571,7 @@ else
+@@ -4557,7 +4559,7 @@ else
    _novomodules="cvidix $_novomodules"
  fi
  
@@ -41,38 +41,38 @@
 +if test "$_vidix" = yes && mingw32; then
    winvidix=yes
    _vomodules="winvidix $_vomodules"
-   _libs_mplayer="$_libs_mplayer -lgdi32"
-@@ -5074,10 +5076,7 @@ EOF
+   libs_mplayer="$libs_mplayer -lgdi32"
+@@ -5112,10 +5114,7 @@ EOF
  fi
  if test "$_sdl" = yes ; then
    def_sdl='#define CONFIG_SDL 1'
 -  if cygwin ; then
--    _libs_mplayer="$_libs_mplayer `$_sdlconfig --libs | cut -d " " -f 1,4,6 | sed s/no-cygwin/cygwin/`"
--    _inc_extra="$_inc_extra `$_sdlconfig --cflags | cut -d " " -f 1,5,6 | sed s/no-cygwin/cygwin/`"
+-    libs_mplayer="$libs_mplayer $($_sdlconfig --libs | cut -d " " -f 1,4,6 | sed s/no-cygwin/cygwin/)"
+-    extra_cflags="$extra_cflags $($_sdlconfig --cflags | cut -d " " -f 1,5,6 | sed s/no-cygwin/cygwin/)"
 -  elif mingw32 ; then
 +  if mingw32 ; then
-     _libs_mplayer="$_libs_mplayer `$_sdlconfig --libs | sed -e s/-mwindows// -e s/-lmingw32//`"
-     _inc_extra="$_inc_extra `$_sdlconfig --cflags | sed s/-Dmain=SDL_main//`"
+     libs_mplayer="$libs_mplayer $($_sdlconfig --libs | sed -e s/-mwindows// -e s/-lmingw32//)"
+     extra_cflags="$extra_cflags $($_sdlconfig --cflags | sed s/-Dmain=SDL_main//)"
    else
-@@ -5701,7 +5700,7 @@ fi
- 
- 
- echocheck "VCD support"
--if linux || freebsd || netbsd || openbsd || dragonfly || bsdos || darwin || sunos || mingw32; then
-+if linux || freebsd || netbsd || openbsd || dragonfly || bsdos || darwin || sunos || win32; then
-   _inputmodules="vcd $_inputmodules"
-   def_vcd='#define CONFIG_VCD 1'
-   _vcd="yes"
-@@ -5784,7 +5783,7 @@ if test "$_libdvdcss_internal" = yes ; t
+@@ -5793,7 +5792,7 @@ if test "$_vcd" = auto; then
+   _vcd=no
+   if linux || freebsd || netbsd || openbsd || dragonfly || bsdos || darwin || sunos; then
+     _vcd=yes
+-  elif mingw32; then
++  elif win32; then
+     cat > $TMPC << EOF
+ #include <ddk/ntddcdrm.h>
+ int main(void) { return 0; }
+@@ -5882,7 +5881,7 @@ if test "$_libdvdcss_internal" = yes ; t
      def_dvd_darwin='#define DARWIN_DVD_IOCTL'
-     _ld_extra="$_ld_extra -framework IOKit"
+     extra_ldflags="$extra_ldflags -framework IOKit -framework Carbon"
    elif cygwin ; then
 -    cflags_libdvdcss="-DSYS_CYGWIN -DWIN32"
 +    cflags_libdvdcss="-DSYS_CYGWIN"
    elif beos ; then
      cflags_libdvdcss="-DSYS_BEOS"
    elif os2 ; then
-@@ -7652,7 +7651,7 @@ if test "$_gui" = yes ; then
+@@ -7792,7 +7791,7 @@ if test "$_gui" = yes ; then
    fi
    test "$_freetype" = no && test "$_bitmap_font" = no && \
      die "The GUI requires either FreeType or bitmap font support."
@@ -81,23 +81,8 @@
    _gui_gtk=yes
    test "$_x11" != yes && die "X11 support required for GUI compilation."
  
-@@ -7754,12 +7753,12 @@ if test "$_gtk1" = yes ; then
-   def_gtk2='#undef CONFIG_GTK2'
- fi
- 
--else #if ! win32
-+else #if ! mingw32
-   _gui_win32=yes
-   _libs_mplayer="$_libs_mplayer -lcomdlg32 -lcomctl32 -lshell32 -lkernel32"
-   def_gui='#define CONFIG_GUI 1'
-   def_gtk2='#undef CONFIG_GTK2'
--fi #if ! win32
-+fi #if ! mingw32
- 
- else #if test "$_gui"
-   def_gui='#undef CONFIG_GUI'
---- origsrc/mplayer/get_path.c	2009-03-02 16:56:56.000000000 -0600
-+++ src/mplayer/get_path.c	2009-03-02 19:26:47.399140800 -0600
+--- origsrc/mplayer/get_path.c	2009-07-12 15:02:43.000000000 -0500
++++ src/mplayer/get_path.c	2009-07-12 15:22:54.515470300 -0500
 @@ -49,7 +49,7 @@ char *get_path(const char *filename){
  	if ((homedir = getenv("MPLAYER_HOME")) != NULL)
  		config_dir = "";
@@ -107,8 +92,8 @@
  	/* Hack to get fonts etc. loaded outside of Cygwin environment. */
  	{
  		int i,imax=0;
---- origsrc/mplayer/libaf/af_ladspa.c	2009-03-02 16:56:53.000000000 -0600
-+++ src/mplayer/libaf/af_ladspa.c	2009-03-03 00:18:22.617890800 -0600
+--- origsrc/mplayer/libaf/af_ladspa.c	2009-07-12 15:02:37.000000000 -0500
++++ src/mplayer/libaf/af_ladspa.c	2009-07-12 15:22:54.520470400 -0500
 @@ -296,7 +296,7 @@ static void* mydlopen(const char *filena
      size_t filenamelen;
      void *result = NULL;
@@ -118,9 +103,9 @@
      /* For Windows there's only absolute path support.
       * If you have a Windows machine, feel free to fix this.
       * (path separator, shared objects extension, et cetera). */
---- origsrc/mplayer/libvo/video_out.c	2009-03-02 16:55:52.000000000 -0600
-+++ src/mplayer/libvo/video_out.c	2009-03-03 00:19:49.946015800 -0600
-@@ -238,7 +238,7 @@ const vo_functions_t* const video_out_dr
+--- origsrc/mplayer/libvo/video_out.c	2009-07-12 14:55:10.000000000 -0500
++++ src/mplayer/libvo/video_out.c	2009-07-12 15:22:54.525470500 -0500
+@@ -242,7 +242,7 @@ const vo_functions_t* const video_out_dr
  #ifdef CONFIG_X11
          &video_out_xvidix,
  #endif
@@ -129,8 +114,8 @@
          &video_out_winvidix,
  #endif
          &video_out_cvidix,
---- origsrc/mplayer/mplayer.c	2009-03-02 16:56:56.000000000 -0600
-+++ src/mplayer/mplayer.c	2009-03-03 00:10:36.617890800 -0600
+--- origsrc/mplayer/mplayer.c	2009-07-12 15:02:43.000000000 -0500
++++ src/mplayer/mplayer.c	2009-07-12 15:22:54.535470600 -0500
 @@ -6,7 +6,7 @@
  #include <stdlib.h>
  #include "config.h"
@@ -142,15 +127,15 @@
  #endif
 @@ -683,7 +683,7 @@ void exit_player_with_rc(exit_reason_t h
  
-   if (mpctx->user_muted && !mpctx->edl_muted) mixer_mute(&mpctx->mixer); 
+   if (mpctx->user_muted && !mpctx->edl_muted) mixer_mute(&mpctx->mixer);
    uninit_player(INITIALIZED_ALL);
 -#if defined(__MINGW32__) || defined(__CYGWIN__)
 +#if defined(__MINGW32__)
    timeEndPeriod(1);
  #endif
  #ifdef CONFIG_X11
-@@ -2575,7 +2575,7 @@ int gui_no_filename=0;
- 	
+@@ -2576,7 +2576,7 @@ int gui_no_filename=0;
+ 
    print_version("MPlayer");
  
 -#if (defined(__MINGW32__) || defined(__CYGWIN__)) && defined(CONFIG_GUI)
@@ -158,7 +143,7 @@
      void *runningmplayer = FindWindow("MPlayer GUI for Windows", "MPlayer for Windows");
      if(runningmplayer && filename && use_gui){
          COPYDATASTRUCT csData;
-@@ -2590,7 +2590,7 @@ int gui_no_filename=0;
+@@ -2591,7 +2591,7 @@ int gui_no_filename=0;
      }
  #endif
  
@@ -167,7 +152,7 @@
  	// stop Windows from showing all kinds of annoying error dialogs
  	SetErrorMode(0x8003);
  	// request 1ms timer resolution
-@@ -2607,7 +2607,7 @@ int gui_no_filename=0;
+@@ -2608,7 +2608,7 @@ int gui_no_filename=0;
        use_gui=0;
      }
  #else
@@ -176,7 +161,7 @@
      if(use_gui && !vo_init()){
        mp_msg(MSGT_CPLAYER,MSGL_WARN,MSGTR_GuiNeedsX);
        use_gui=0;
-@@ -3040,7 +3040,7 @@ if (edl_output_filename) {
+@@ -3041,7 +3041,7 @@ if (edl_output_filename) {
        char *buf = strdup(filename), *psub;
        char *pdot = strrchr(buf, '.');
        char *pslash = strrchr(buf, '/');
@@ -185,7 +170,7 @@
        if (!pslash) pslash = strrchr(buf, '\\');
  #endif
        if (pdot && (!pslash || pdot > pslash))
-@@ -3051,7 +3051,7 @@ if (edl_output_filename) {
+@@ -3052,7 +3052,7 @@ if (edl_output_filename) {
            char *bname;
            int l;
            bname = strrchr(buf,'/');
@@ -194,8 +179,8 @@
            if(!bname) bname = strrchr(buf,'\\');
  #endif
            if(bname) bname++;
---- origsrc/mplayer/stream/stream_vcd.c	2009-03-04 01:25:20.000000000 -0600
-+++ src/mplayer/stream/stream_vcd.c	2009-03-04 01:46:54.211000000 -0600
+--- origsrc/mplayer/stream/stream_vcd.c	2009-07-12 14:51:35.000000000 -0500
++++ src/mplayer/stream/stream_vcd.c	2009-07-12 15:22:54.539220700 -0500
 @@ -102,7 +102,7 @@ static int open_s(stream_t *stream,int m
        p->device = strdup(DEFAULT_CDROM_DEVICE);
    }
