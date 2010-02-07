@@ -1,9 +1,11 @@
-SVN_URI="svn://svn.mplayerhq.hu/mplayer"
-SVN_REV=${PV}
-inherit svn
+#SVN_URI="svn://svn.mplayerhq.hu/mplayer"
+#SVN_DATE=$((PV + 1))
+#inherit svn
 
 DESCRIPTION="MPlayer"
 HOMEPAGE="http://www.mplayerhq.hu/"
+SRC_URI="mirror://mplayer/releases/mplayer-export-snapshot.tar.bz2"
+SRC_DIR="mplayer-export-${PV:0:4}-${PV:4:2}-${PV:6:2}"
 
 SRC_URI+="
 	mirror://mplayer/skins/Blue-1.7.tar.bz2
@@ -11,9 +13,10 @@ SRC_URI+="
 	mirror://mplayer/skins/standard-1.9.tar.bz2
 "
 
-PATCH_URI="r29417-cygwin.patch
-           r29417-as-needed.patch
-           r28804-gmplayer-BadAccess.patch"
+PATCH_URI="
+	20100207-cygwin.patch
+	20090712-as-needed.patch
+"
 
 skins="Blue Blue-small standard"
 
@@ -33,6 +36,7 @@ myconf="
   --enable-gui
   --disable-gtk1
   --enable-largefiles
+
   --disable-linux-devfs
   --disable-lirc
   --disable-lircc
@@ -49,18 +53,20 @@ myconf="
   --disable-pvr
   --enable-network
   --disable-winsock2_h
-  --disable-smb
-  --disable-libamr_nb
-  --disable-libamr_wb
-  --disable-live
-  --disable-nemesi
+
   --disable-cdparanoia
-  --disable-maemo
+  --disable-faac
+  --disable-live
   --disable-macosx-finder
   --disable-macosx-bundle
+  --disable-maemo
+  --disable-musepack
+  --disable-nemesi
   --disable-rpath
+  --disable-smb
 
   --disable-xanim
+  --disable-ass-internal
   --disable-libavutil_so
   --disable-libavcodec_so
   --disable-libavformat_so
@@ -71,28 +77,44 @@ myconf="
   --disable-dvdread-internal
   --disable-libdvdcss-internal
 
-  --disable-vidix
+  --disable-3dfx
+  --disable-aa
+  --disable-bl
+  --disable-caca
   --disable-dga1
   --disable-dga2
   --disable-direct3d
+  --disable-directfb
   --disable-directx
-  --disable-vesa
+  --disable-dvb
+  --disable-dvbhead
+  --disable-dxr2
+  --disable-dxr3
+  --disable-fbdev
+  --disable-ggi
+  --disable-ggiwmh
+  --disable-ivtv
+  --disable-kva
+  --disable-mlib
+  --disable-s3fb
   --disable-svga
+  --disable-tdfxfb
+  --disable-tdfxvid
+  --disable-v4l2
+  --disable-vesa
+  --disable-vidix
   --disable-xv
   --disable-xvmc
-  --disable-vm
-  --disable-fbdev
-  --disable-mlib
-  --disable-3dfx
-  --disable-tdfxfb
-  --disable-s3fb
-  --disable-directfb
   --disable-zr
-  --disable-bl
-  --disable-tdfxvid
 
+  --disable-arts
   --disable-alsa
+  --disable-coreaudio
   --disable-dart
+  --disable-esd
+  --disable-jack
+  --disable-kai
+  --disable-nas
   --disable-openal
   --disable-pulse
   --disable-sgiaudio
@@ -116,7 +138,6 @@ src_compile() {
 	cd ${B}
 	# http://lists.mplayerhq.hu/pipermail/mplayer-dev-eng/2006-November/047222.html
 	# -fno-common: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=37216
-#	unset CFLAGS
 	CFLAGS+=" -finline-functions -fno-common -fomit-frame-pointer"
 	verbose ${S}/configure \
 		${myconf} \

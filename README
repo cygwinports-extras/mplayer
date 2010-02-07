@@ -12,61 +12,60 @@ built from the MPlayer source tree. An unofficial graphical frontend
 exists but is not included.
 
 Runtime requirements:
-  cygwin-1.7.0-50
+  cygwin-1.7.1-1
   liba52_0-0.7.4-10
-  libaa1-1.4rc5-3
-  libartsc0-1.5.10-10
-  libaudio2-1.9.2-1
+  libass4-0.9.8-1
   libbs2b0-3.1.0-1
   libbz2_1-1.0.5-10
-  libcaca0-0.99.beta16-11
   libcdio_cdda0-0.81-10
   libcdio_paranoia0-0.81-10
+  libdca0-0.0.5-10
   libdirac0-1.0.2-10
   libdv4-1.0.0-10
   libdvdread4-4.1.3-10
-  libesd0-0.2.41-10
-  libfaac0-1.28-10
   libfaad2-2.7-10
-  libfontconfig1-2.6.0-10
-  libfreetype6-2.3.9-1
-  libgcc1-4.3.2-2
+  libfontconfig1-2.8.0-1
+  libfreetype6-2.3.11-1
+  libfribidi0-0.19.2-1
+  libgcc1-4.3.4-3
   libgif4-4.1.6-10
-  libGL1-7.2-10
-  libglib2.0_0-2.20.3-1
-  libgtk2.0_0-2.16.2-1
-  libiconv2-1.13-10
-  libjpeg62-6b-20
-  liblzo2_2-2.03-1
+  libGL1-7.5.2-1
+  libglib2.0_0-2.22.4-2
+  libgtk2.0_0-2.18.6-1
+  libiconv2-1.13.1-1
+  libjpeg7-7-10
+  liblzo2_2-2.03-10
   libmad0-0.15.1b-10
   libmng1-1.0.10-1
   libmp3lame0-3.98.2-10
-  libmpcdec5-1.2.6-10
   libnut0-661-10
+  libopencore-amrnb0-0.1.2-1
+  libopencore-amrwb0-0.1.2-1
+  libopenjpeg2-1.3-10
   libpng12-1.2.35-10
-  libschroedinger1.0_0-1.0.5-10
-  libSDL1.2_0-1.2.13-10
+  libschroedinger1.0_0-1.0.7-1
+  libSDL1.2_0-1.2.14-1
   libspeex1-1.2rc1-1
-  libtheora0-1.0-10
+  libtheora0-1.1.1-1
   libtwolame0-0.3.12-10
-  libX11_6-1.2-10
-  libx264_68-20090712-1
-  libXext6-1.0.5-10
-  libXinerama1-1.0.3-10
-  libXss1-1.1.3-10
-  libxvidcore4-1.2.1-10
+  libX11_6-1.3.2-2
+  libx264_84-20100206-1
+  libXext6-1.1.1-1
+  libXinerama1-1.1-1
+  libXss1-1.2.0-1
+  libxvidcore4-1.2.2-1
   zlib0-1.2.3-10
 
 Build requirements:
 (besides corresponding -devel packages)
   binutils-2.19.51-1
-  cygport-0.9.7-1
-  gcc4-core-4.3.2-2
+  cygport-0.9.80-1
+  gcc4-core-4.3.4-3
   libdvdnav-devel-4.1.3-10
   make-3.81-2
   pkg-config-0.23b-10
   sed-4.1.5-2
-  w32api-3.13-1
+  w32api-3.14-1
 
 Canonical website:
   http://www.mplayerhq.hu/
@@ -77,166 +76,22 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack mplayer-29417-X-src.tar.bz2
+  unpack mplayer-20100207-X-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./mplayer-29417-X.cygport all
+  cygport ./mplayer-20100207-X.cygport all
 
 This will create:
-  /usr/src/mplayer-29417-X-src.tar.bz2
-  /usr/src/mplayer-29417-X.tar.bz2
+  /usr/src/mplayer-20100207-X-src.tar.bz2
+  /usr/src/mplayer-20100207-X.tar.bz2
 
 -------------------------------------------
 
-Files included in the binary package:
-
-  /etc/mplayer/codecs.conf
-  /etc/mplayer/input.conf
-  /etc/mplayer/menu.conf
-  /etc/mplayer/mplayer.conf
-  /usr/bin/aconvert.sh
-  /usr/bin/gmplayer
-  /usr/bin/mencoder.exe
-  /usr/bin/mencvcd.sh
-  /usr/bin/midentify.sh
-  /usr/bin/mplayer.exe
-  /usr/share/applications/mplayer.desktop
-  /usr/share/doc/mplayer/AUTHORS
-  /usr/share/doc/mplayer/COPYRIGHT
-  /usr/share/doc/mplayer/ChangeLog
-  /usr/share/doc/mplayer/LICENSE
-  /usr/share/doc/mplayer/README
-  /usr/share/man/cs/man1/mencoder.1.gz
-  /usr/share/man/cs/man1/mplayer.1.gz
-  /usr/share/man/de/man1/mencoder.1.gz
-  /usr/share/man/de/man1/mplayer.1.gz
-  /usr/share/man/es/man1/mencoder.1.gz
-  /usr/share/man/es/man1/mplayer.1.gz
-  /usr/share/man/fr/man1/mencoder.1.gz
-  /usr/share/man/fr/man1/mplayer.1.gz
-  /usr/share/man/hu/man1/mencoder.1.gz
-  /usr/share/man/hu/man1/mplayer.1.gz
-  /usr/share/man/it/man1/mencoder.1.gz
-  /usr/share/man/it/man1/mplayer.1.gz
-  /usr/share/man/man1/mencoder.1.gz
-  /usr/share/man/man1/mplayer.1.gz
-  /usr/share/man/pl/man1/mencoder.1.gz
-  /usr/share/man/pl/man1/mplayer.1.gz
-  /usr/share/man/ru/man1/mencoder.1.gz
-  /usr/share/man/ru/man1/mplayer.1.gz
-  /usr/share/mplayer/skins/Blue-small/README
-  /usr/share/mplayer/skins/Blue-small/VERSION
-  /usr/share/mplayer/skins/Blue-small/bareqb.png
-  /usr/share/mplayer/skins/Blue-small/barexit.png
-  /usr/share/mplayer/skins/Blue-small/barffwd.png
-  /usr/share/mplayer/skins/Blue-small/barfwd.png
-  /usr/share/mplayer/skins/Blue-small/barmute.png
-  /usr/share/mplayer/skins/Blue-small/barplay.png
-  /usr/share/mplayer/skins/Blue-small/barrev.png
-  /usr/share/mplayer/skins/Blue-small/barrevv.png
-  /usr/share/mplayer/skins/Blue-small/barstop.png
-  /usr/share/mplayer/skins/Blue-small/barzoom.png
-  /usr/share/mplayer/skins/Blue-small/font-pl.png
-  /usr/share/mplayer/skins/Blue-small/font.fnt
-  /usr/share/mplayer/skins/Blue-small/forward.png
-  /usr/share/mplayer/skins/Blue-small/main.png
-  /usr/share/mplayer/skins/Blue-small/menu.png
-  /usr/share/mplayer/skins/Blue-small/menus.png
-  /usr/share/mplayer/skins/Blue-small/play.png
-  /usr/share/mplayer/skins/Blue-small/playbar.png
-  /usr/share/mplayer/skins/Blue-small/pos.png
-  /usr/share/mplayer/skins/Blue-small/progres.png
-  /usr/share/mplayer/skins/Blue-small/rev.png
-  /usr/share/mplayer/skins/Blue-small/skin
-  /usr/share/mplayer/skins/Blue-small/stop.png
-  /usr/share/mplayer/skins/Blue-small/subblue.png
-  /usr/share/mplayer/skins/Blue-small/symbols.fnt
-  /usr/share/mplayer/skins/Blue-small/symbols2.png
-  /usr/share/mplayer/skins/Blue-small/symbolsg.fnt
-  /usr/share/mplayer/skins/Blue-small/volume.png
-  /usr/share/mplayer/skins/Blue/README
-  /usr/share/mplayer/skins/Blue/VERSION
-  /usr/share/mplayer/skins/Blue/about.png
-  /usr/share/mplayer/skins/Blue/bareqb.png
-  /usr/share/mplayer/skins/Blue/barexit.png
-  /usr/share/mplayer/skins/Blue/barffwd.png
-  /usr/share/mplayer/skins/Blue/barfwd.png
-  /usr/share/mplayer/skins/Blue/barmute.png
-  /usr/share/mplayer/skins/Blue/barplay.png
-  /usr/share/mplayer/skins/Blue/barrev.png
-  /usr/share/mplayer/skins/Blue/barrevv.png
-  /usr/share/mplayer/skins/Blue/barstop.png
-  /usr/share/mplayer/skins/Blue/barzoom.png
-  /usr/share/mplayer/skins/Blue/eqb.png
-  /usr/share/mplayer/skins/Blue/exit.png
-  /usr/share/mplayer/skins/Blue/font-pl.png
-  /usr/share/mplayer/skins/Blue/font.fnt
-  /usr/share/mplayer/skins/Blue/forward.png
-  /usr/share/mplayer/skins/Blue/icons/icon32x32.png
-  /usr/share/mplayer/skins/Blue/icons/icon48x48.png
-  /usr/share/mplayer/skins/Blue/load.png
-  /usr/share/mplayer/skins/Blue/main-silver.png
-  /usr/share/mplayer/skins/Blue/main.png
-  /usr/share/mplayer/skins/Blue/menu.png
-  /usr/share/mplayer/skins/Blue/menus.png
-  /usr/share/mplayer/skins/Blue/minimize.png
-  /usr/share/mplayer/skins/Blue/mute.png
-  /usr/share/mplayer/skins/Blue/next.png
-  /usr/share/mplayer/skins/Blue/play.png
-  /usr/share/mplayer/skins/Blue/playbar.png
-  /usr/share/mplayer/skins/Blue/playlist.png
-  /usr/share/mplayer/skins/Blue/pos.png
-  /usr/share/mplayer/skins/Blue/prefs.png
-  /usr/share/mplayer/skins/Blue/prev.png
-  /usr/share/mplayer/skins/Blue/progres-long2c.png
-  /usr/share/mplayer/skins/Blue/progres-long2d.png
-  /usr/share/mplayer/skins/Blue/rev.png
-  /usr/share/mplayer/skins/Blue/skin
-  /usr/share/mplayer/skins/Blue/skinb.png
-  /usr/share/mplayer/skins/Blue/stop.png
-  /usr/share/mplayer/skins/Blue/subblue.png
-  /usr/share/mplayer/skins/Blue/subload.png
-  /usr/share/mplayer/skins/Blue/symbols.fnt
-  /usr/share/mplayer/skins/Blue/symbols2.png
-  /usr/share/mplayer/skins/Blue/symbolsg.fnt
-  /usr/share/mplayer/skins/Blue/zoom-3.png
-  /usr/share/mplayer/skins/default
-  /usr/share/mplayer/skins/standard/README
-  /usr/share/mplayer/skins/standard/VERSION
-  /usr/share/mplayer/skins/standard/about.png
-  /usr/share/mplayer/skins/standard/back.png
-  /usr/share/mplayer/skins/standard/eq.png
-  /usr/share/mplayer/skins/standard/eqb.png
-  /usr/share/mplayer/skins/standard/exit.png
-  /usr/share/mplayer/skins/standard/font.fnt
-  /usr/share/mplayer/skins/standard/font.png
-  /usr/share/mplayer/skins/standard/forward.png
-  /usr/share/mplayer/skins/standard/fsb.png
-  /usr/share/mplayer/skins/standard/iconify.png
-  /usr/share/mplayer/skins/standard/load.png
-  /usr/share/mplayer/skins/standard/main.png
-  /usr/share/mplayer/skins/standard/menu.png
-  /usr/share/mplayer/skins/standard/menus.png
-  /usr/share/mplayer/skins/standard/next.png
-  /usr/share/mplayer/skins/standard/pause.png
-  /usr/share/mplayer/skins/standard/play.png
-  /usr/share/mplayer/skins/standard/playbar.png
-  /usr/share/mplayer/skins/standard/plb.png
-  /usr/share/mplayer/skins/standard/pos.png
-  /usr/share/mplayer/skins/standard/prev.png
-  /usr/share/mplayer/skins/standard/skin
-  /usr/share/mplayer/skins/standard/stop.png
-  /usr/share/mplayer/skins/standard/sub.png
-  /usr/share/mplayer/skins/standard/subload.png
-  /usr/share/mplayer/skins/standard/symbols.fnt
-  /usr/share/mplayer/skins/standard/symbols.png
-  /usr/share/mplayer/skins/standard/volume.png
-  /usr/share/pixmaps/mplayer.xpm
-
-------------------
-
 Port Notes:
+
+----- version 20100207-1 -----
+Version bump.
 
 ----- version 29417-1 -----
 Initial release for Cygwin 1.7.
