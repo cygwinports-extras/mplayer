@@ -1,8 +1,6 @@
-libdvdnavmini is static only (explanation in the configure file)
-
---- origsrc/mplayer/configure	2009-07-12 15:24:05.124049200 -0500
-+++ src/mplayer/configure	2009-07-12 15:26:46.402763500 -0500
-@@ -7818,7 +7818,7 @@ int main(void) {
+--- origsrc/mplayer-export-2010-10-20/configure	2010-10-15 05:45:19.000000000 -0500
++++ src/mplayer-export-2010-10-20/configure	2010-10-19 23:35:17.053146400 -0500
+@@ -7677,7 +7677,7 @@ int main(void) {
    return exitvar;
  }
  EOF
@@ -11,12 +9,12 @@ libdvdnavmini is static only (explanation in the configure file)
    fi
    if test "$_xshape" = yes ; then
      def_xshape='#define CONFIG_XSHAPE 1'
-@@ -8106,7 +8106,7 @@ if test "$_dvdnav" = yes ; then
-     _inputmodules="dvdnav(internal) $_inputmodules"
+@@ -7953,7 +7953,7 @@ if test "$_dvdnav" = yes ; then
+     inputmodules="dvdnav(internal) $inputmodules"
    else
      extra_cflags="$extra_cflags $($_dvdnavconfig --cflags)"
 -    extra_ldflags="$extra_ldflags $($_dvdnavconfig --minilibs)"
 +    extra_ldflags="$($_dvdnavconfig --minilibs) $extra_ldflags"
-     _inputmodules="dvdnav $_inputmodules"
+     inputmodules="dvdnav $inputmodules"
    fi
  else

@@ -1,24 +1,12 @@
-#SVN_URI="svn://svn.mplayerhq.hu/mplayer"
-#SVN_DATE=$((PV + 1))
-#inherit svn
-
 DESCRIPTION="MPlayer"
 HOMEPAGE="http://www.mplayerhq.hu/"
 SRC_URI="mirror://mplayer/releases/mplayer-export-snapshot.tar.bz2"
 SRC_DIR="mplayer-export-${PV:0:4}-${PV:4:2}-${PV:6:2}"
 
-SRC_URI+="
-	mirror://mplayer/skins/Blue-1.7.tar.bz2
-	mirror://mplayer/skins/Blue-small-1.4.tar.bz2
-	mirror://mplayer/skins/standard-1.9.tar.bz2
-"
-
 PATCH_URI="
-	20100207-cygwin.patch
-	20090712-as-needed.patch
+	20101020-cygwin.patch
+	20101020-as-needed.patch
 "
-
-skins="Blue Blue-small standard"
 
 # generally only disable undesired components; let autodetect do the rest
 myconf="
@@ -29,15 +17,12 @@ myconf="
   --mandir=/usr/share/man
   --confdir=/etc/mplayer
   --codecsdir=/usr/lib/win32
-  --win32codecsdir=/usr/lib/win32
-  --realcodecsdir=/usr/lib/win32
 
   --enable-mencoder
   --enable-gui
   --disable-gtk1
   --enable-largefiles
 
-  --disable-linux-devfs
   --disable-lirc
   --disable-lircc
   --disable-joystick
@@ -51,7 +36,6 @@ myconf="
   --disable-tv-v4l2
   --disable-tv-bsdbt848
   --disable-pvr
-  --enable-network
   --disable-winsock2_h
 
   --disable-cdparanoia
@@ -67,12 +51,7 @@ myconf="
 
   --disable-xanim
   --disable-ass-internal
-  --disable-libavutil_so
-  --disable-libavcodec_so
-  --disable-libavformat_so
-  --disable-libpostproc_so
-  --disable-libswscale_so
-  --disable-liba52-internal
+  --disable-ffmpeg_so
   --disable-faad-internal
   --disable-dvdread-internal
   --disable-libdvdcss-internal
@@ -87,7 +66,6 @@ myconf="
   --disable-directfb
   --disable-directx
   --disable-dvb
-  --disable-dvbhead
   --disable-dxr2
   --disable-dxr3
   --disable-fbdev
@@ -102,7 +80,6 @@ myconf="
   --disable-tdfxvid
   --disable-v4l2
   --disable-vesa
-  --disable-vidix
   --disable-xv
   --disable-xvmc
   --disable-zr
@@ -154,13 +131,6 @@ src_install() {
 		CONFDIR=${D}/etc/mplayer \
 		DATADIR=${D}/usr/share/mplayer \
 		MANDIR=${D}/usr/share/man
-
-	dodir /usr/share/mplayer/skins
-	for s in ${skins}
-	do
-		cp -r ${S}/../${s} ${D}/usr/share/mplayer/skins/
-	done
-	dosym Blue /usr/share/mplayer/skins/default
 
 	# Fix the symlink
 	rm -rf ${D}/usr/bin/gmplayer
