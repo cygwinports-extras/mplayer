@@ -1,20 +1,18 @@
---- origsrc/mplayer-export-2010-10-20/configure	2010-10-19 23:35:52.106407500 -0500
-+++ src/mplayer-export-2010-10-20/configure	2010-10-19 23:39:46.080427500 -0500
-@@ -1507,7 +1507,12 @@ elif linux ; then
-   _ranlib='true'
- fi
+--- origsrc/MPlayer-1.0rc4/configure	2010-07-28 19:31:57.000000000 -0500
++++ src/MPlayer-1.0rc4/configure	2011-02-04 02:10:17.739072200 -0600
+@@ -1520,6 +1520,11 @@ fi
  
--if win32 ; then
-+if cygwin ; then
-+  _exesuf=".exe"
+ if win32 ; then
+   _exesuf=".exe"
 +  _pe_executable=yes
 +fi
 +
 +if mingw32 ; then
-   _exesuf=".exe"
++  _exesuf=".exe"
    extra_cflags="$extra_cflags -fno-common"
    # -lwinmm is always needed for osdep/timer-win2.c
-@@ -1517,9 +1522,6 @@ if win32 ; then
+   extra_ldflags="$extra_ldflags -lwinmm"
+@@ -1528,9 +1533,6 @@ if win32 ; then
    _priority=yes
    def_dos_paths="#define HAVE_DOS_PATHS 1"
    def_priority="#define CONFIG_PRIORITY 1"
@@ -24,7 +22,7 @@
    _getch=getch2-win.c
    _need_shmem=no
  fi
-@@ -1687,7 +1689,7 @@ if test "$_runtime_cpudetection" = no ;
+@@ -1698,7 +1700,7 @@ if test "$_runtime_cpudetection" = no ;
  
  # Cygwin has /proc/cpuinfo, but only supports Intel CPUs
  # FIXME: Remove the cygwin check once AMD CPUs are supported
@@ -33,7 +31,7 @@
    # Linux with /proc mounted, extract CPU information from it
    _cpuinfo="cat /proc/cpuinfo"
  elif test -r /compat/linux/proc/cpuinfo && ! x86 ; then
-@@ -4595,7 +4597,7 @@ else
+@@ -4730,7 +4732,7 @@ else
    novomodules="cvidix $novomodules"
  fi
  
@@ -42,7 +40,7 @@
    winvidix=yes
    vomodules="winvidix $vomodules"
    libs_mplayer="$libs_mplayer -lgdi32"
-@@ -5814,7 +5816,7 @@ if test "$_vcd" = auto; then
+@@ -6026,7 +6028,7 @@ if test "$_vcd" = auto; then
    _vcd=no
    if linux || freebsd || netbsd || openbsd || dragonfly || bsdos || darwin || sunos || os2; then
      _vcd=yes
@@ -51,7 +49,7 @@
    header_check ddk/ntddcdrm.h && _vcd=yes
    fi
  fi
-@@ -5905,7 +5907,7 @@ if test "$_libdvdcss_internal" = yes ; t
+@@ -6135,7 +6137,7 @@ if test "$_libdvdcss_internal" = yes ; t
      def_dvd_darwin='#define DARWIN_DVD_IOCTL'
      extra_ldflags="$extra_ldflags -framework IOKit -framework Carbon"
    elif cygwin ; then
@@ -60,7 +58,7 @@
    elif beos ; then
      cflags_libdvdcss="-DSYS_BEOS"
    elif os2 ; then
-@@ -7650,7 +7652,7 @@ if test "$_gui" = yes ; then
+@@ -8138,7 +8140,7 @@ if test "$_gui" = yes ; then
    fi
    test "$_freetype" = no && test "$_bitmap_font" = no && \
      die "The GUI requires either FreeType or bitmap font support."
@@ -69,8 +67,8 @@
    _gui_gtk=yes
    test "$_x11" != yes && die "X11 support required for GUI compilation."
  
---- origsrc/mplayer-export-2010-10-20/libaf/af_ladspa.c	2010-06-25 11:53:27.000000000 -0500
-+++ src/mplayer-export-2010-10-20/libaf/af_ladspa.c	2010-10-19 23:39:46.096027600 -0500
+--- origsrc/MPlayer-1.0rc4/libaf/af_ladspa.c	2010-06-25 11:53:27.000000000 -0500
++++ src/MPlayer-1.0rc4/libaf/af_ladspa.c	2011-02-04 02:10:28.814567000 -0600
 @@ -296,7 +296,7 @@ static void* mydlopen(const char *filena
      size_t filenamelen;
      void *result = NULL;
@@ -80,8 +78,21 @@
      /* For Windows there's only absolute path support.
       * If you have a Windows machine, feel free to fix this.
       * (path separator, shared objects extension, et cetera). */
---- origsrc/mplayer-export-2010-10-20/libdvdread4/bswap.h	2008-10-09 17:04:24.000000000 -0500
-+++ src/mplayer-export-2010-10-20/libdvdread4/bswap.h	2010-10-19 23:41:43.704689500 -0500
+--- origsrc/MPlayer-1.0rc4/libavutil/bswap.h	2010-05-20 17:45:00.000000000 -0500
++++ src/MPlayer-1.0rc4/libavutil/bswap.h	2011-02-04 02:30:52.195959100 -0600
+@@ -38,6 +38,10 @@
+ #   include "bfin/bswap.h"
+ #elif ARCH_SH4
+ #   include "sh4/bswap.h"
++#elif defined(__CYGWIN__)
++#   define bswap_16 bswap_16
++#   define bswap_32 bswap_32
++#   define bswap_64 bswap_64
+ #elif ARCH_X86
+ #   include "x86/bswap.h"
+ #endif
+--- origsrc/MPlayer-1.0rc4/libdvdread4/bswap.h	2008-10-09 17:04:24.000000000 -0500
++++ src/MPlayer-1.0rc4/libdvdread4/bswap.h	2011-02-04 02:11:07.934705700 -0600
 @@ -37,7 +37,7 @@
  #include <sys/param.h>
  #endif
@@ -91,9 +102,9 @@
  #include <byteswap.h>
  #define B2N_16(x) x = bswap_16(x)
  #define B2N_32(x) x = bswap_32(x)
---- origsrc/mplayer-export-2010-10-20/libvo/video_out.c	2010-09-20 02:33:53.000000000 -0500
-+++ src/mplayer-export-2010-10-20/libvo/video_out.c	2010-10-20 00:13:13.991284800 -0500
-@@ -259,7 +259,7 @@ const vo_functions_t* const video_out_dr
+--- origsrc/MPlayer-1.0rc4/libvo/video_out.c	2010-06-13 07:04:13.000000000 -0500
++++ src/MPlayer-1.0rc4/libvo/video_out.c	2011-02-04 02:11:23.160488700 -0600
+@@ -258,7 +258,7 @@ const vo_functions_t* const video_out_dr
  #ifdef CONFIG_X11
          &video_out_xvidix,
  #endif
@@ -102,19 +113,8 @@
          &video_out_winvidix,
  #endif
          &video_out_cvidix,
---- origsrc/mplayer-export-2010-10-20/mpcommon.c	2010-10-17 10:25:38.000000000 -0500
-+++ src/mplayer-export-2010-10-20/mpcommon.c	2010-10-20 00:18:00.250832000 -0500
-@@ -375,7 +375,7 @@ void common_preinit(void)
-  */
- static void sanitize_os(void)
- {
--#if defined(__MINGW32__) || defined(__CYGWIN__)
-+#if defined(__MINGW32__)
-     HMODULE kernel32 = GetModuleHandle("Kernel32.dll");
-     BOOL WINAPI (*setDEP)(DWORD) = NULL;
-     BOOL WINAPI (*setDllDir)(LPCTSTR) = NULL;
---- origsrc/mplayer-export-2010-10-20/mplayer.c	2010-10-17 10:23:33.000000000 -0500
-+++ src/mplayer-export-2010-10-20/mplayer.c	2010-10-19 23:39:46.111627600 -0500
+--- origsrc/MPlayer-1.0rc4/mplayer.c	2010-08-28 09:20:58.000000000 -0500
++++ src/MPlayer-1.0rc4/mplayer.c	2011-02-04 02:13:08.430666800 -0600
 @@ -34,7 +34,7 @@
  #include <sys/time.h>
  #include <sys/types.h>
@@ -124,7 +124,7 @@
  #define _UWIN 1  /*disable Non-underscored versions of non-ANSI functions as otherwise int eof would conflict with eof()*/
  #include <windows.h>
  #endif
-@@ -719,7 +719,7 @@ void exit_player_with_rc(enum exit_reaso
+@@ -718,7 +718,7 @@ void exit_player_with_rc(enum exit_reaso
  
    if (mpctx->user_muted && !mpctx->edl_muted) mixer_mute(&mpctx->mixer);
    uninit_player(INITIALIZED_ALL);
@@ -133,16 +133,25 @@
    timeEndPeriod(1);
  #endif
  #ifdef CONFIG_X11
-@@ -2795,7 +2795,7 @@ int gui_no_filename=0;
-     }
+@@ -1261,7 +1261,7 @@ static void print_status(float a_pos, fl
+     width = screen_width;
+   else
+   width = 80;
+-#if defined(__MINGW32__) || defined(__CYGWIN__) || defined(__OS2__)
++#if defined(__MINGW32__) || defined(__OS2__)
+   /* Windows command line is broken (MinGW's rxvt works, but we
+    * should not depend on that). */
+   width--;
+@@ -2727,7 +2727,7 @@ int gui_no_filename=0;
  
    print_version("MPlayer");
--#if (defined(__MINGW32__) || defined(__CYGWIN__)) && defined(CONFIG_GUI)
-+#if defined(__MINGW32__) && defined(CONFIG_GUI)
+ 
+-#if defined(__MINGW32__) || defined(__CYGWIN__)
++#if defined(__MINGW32__)
+ #ifdef CONFIG_GUI
      void *runningmplayer = FindWindow("MPlayer GUI for Windows", "MPlayer for Windows");
-     if (runningmplayer && filename && use_gui) {
-         COPYDATASTRUCT csData;
-@@ -2818,7 +2818,7 @@ int gui_no_filename=0;
+     if(runningmplayer && filename && use_gui){
+@@ -2773,7 +2773,7 @@ int gui_no_filename=0;
        use_gui=0;
      }
  #else
@@ -151,7 +160,7 @@
      if(use_gui && !vo_init()){
        mp_msg(MSGT_CPLAYER,MSGL_WARN,MSGTR_GuiNeedsX);
        use_gui=0;
-@@ -3202,7 +3202,7 @@ while (player_idle_mode && !filename) {
+@@ -3214,7 +3214,7 @@ if (edl_output_filename) {
        char *buf = strdup(filename), *psub;
        char *pdot = strrchr(buf, '.');
        char *pslash = strrchr(buf, '/');
@@ -160,7 +169,7 @@
        if (!pslash) pslash = strrchr(buf, '\\');
  #endif
        if (pdot && (!pslash || pdot > pslash))
-@@ -3213,7 +3213,7 @@ while (player_idle_mode && !filename) {
+@@ -3225,7 +3225,7 @@ if (edl_output_filename) {
            char *bname;
            int l;
            bname = strrchr(buf,'/');
@@ -169,8 +178,8 @@
            if(!bname) bname = strrchr(buf,'\\');
  #endif
            if(bname) bname++;
---- origsrc/mplayer-export-2010-10-20/path.c	2010-03-23 13:01:00.000000000 -0500
-+++ src/mplayer-export-2010-10-20/path.c	2010-10-19 23:39:46.096027600 -0500
+--- origsrc/MPlayer-1.0rc4/path.c	2010-03-23 13:01:00.000000000 -0500
++++ src/MPlayer-1.0rc4/path.c	2011-02-04 02:13:30.023418800 -0600
 @@ -65,7 +65,7 @@ char *get_path(const char *filename){
  	if ((homedir = getenv("MPLAYER_HOME")) != NULL)
  		config_dir = "";
@@ -180,8 +189,8 @@
  	/* Hack to get fonts etc. loaded outside of Cygwin environment. */
  	{
  		int i,imax=0;
---- origsrc/mplayer-export-2010-10-20/stream/stream_vcd.c	2010-06-21 03:38:23.000000000 -0500
-+++ src/mplayer-export-2010-10-20/stream/stream_vcd.c	2010-10-19 23:39:46.127227600 -0500
+--- origsrc/MPlayer-1.0rc4/stream/stream_vcd.c	2010-06-21 03:38:23.000000000 -0500
++++ src/MPlayer-1.0rc4/stream/stream_vcd.c	2011-02-04 02:14:22.583045100 -0600
 @@ -161,7 +161,7 @@ static int open_s(stream_t *stream,int m
        p->device = strdup(DEFAULT_CDROM_DEVICE);
    }

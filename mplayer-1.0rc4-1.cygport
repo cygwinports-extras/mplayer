@@ -1,10 +1,12 @@
 DESCRIPTION="MPlayer"
 HOMEPAGE="http://www.mplayerhq.hu/"
-SRC_URI="mirror://mplayer/releases/mplayer-export-snapshot.tar.bz2"
-SRC_DIR="mplayer-export-${PV:0:4}-${PV:4:2}-${PV:6:2}"
+SRC_URI="http://www.mplayerhq.hu/MPlayer/releases/MPlayer-1.0rc4.tar.bz2"
+SRC_DIR="MPlayer-${PV}"
+#SRC_URI="mirror://mplayer/releases/mplayer-export-snapshot.tar.bz2"
+#SRC_DIR="mplayer-export-${PV:0:4}-${PV:4:2}-${PV:6:2}"
 
 PATCH_URI="
-	20101020-cygwin.patch
+	1.0rc4-cygwin.patch
 	20101020-as-needed.patch
 "
 
@@ -19,8 +21,7 @@ myconf="
   --codecsdir=/usr/lib/win32
 
   --enable-mencoder
-  --enable-gui
-  --disable-gtk1
+  --disable-gui
   --enable-largefiles
 
   --disable-lirc
@@ -51,7 +52,6 @@ myconf="
 
   --disable-xanim
   --disable-ass-internal
-  --disable-ffmpeg_so
   --disable-faad-internal
   --disable-dvdread-internal
   --disable-libdvdcss-internal
@@ -115,7 +115,7 @@ src_compile() {
 	cd ${B}
 	# http://lists.mplayerhq.hu/pipermail/mplayer-dev-eng/2006-November/047222.html
 	# -fno-common: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=37216
-	CFLAGS+=" -finline-functions -fno-common -fomit-frame-pointer"
+	CFLAGS+=" -finline-functions -fomit-frame-pointer"
 	verbose ${S}/configure \
 		${myconf} \
 		|| error "configure failed"
@@ -131,10 +131,6 @@ src_install() {
 		CONFDIR=${D}/etc/mplayer \
 		DATADIR=${D}/usr/share/mplayer \
 		MANDIR=${D}/usr/share/man
-
-	# Fix the symlink
-	rm -rf ${D}/usr/bin/gmplayer
-	dosym mplayer.exe /usr/bin/gmplayer
 
 	insinto /etc/mplayer
 	newins ${S}/etc/example.conf mplayer.conf
