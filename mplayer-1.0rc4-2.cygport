@@ -91,8 +91,6 @@ myconf="
   --disable-esd
   --disable-jack
   --disable-kai
-  --disable-nas
-  --disable-openal
   --disable-pulse
   --disable-sgiaudio
   --disable-sunaudio
