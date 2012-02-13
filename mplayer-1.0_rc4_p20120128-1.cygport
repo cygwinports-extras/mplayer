@@ -1,12 +1,11 @@
 DESCRIPTION="MPlayer"
 HOMEPAGE="http://www.mplayerhq.hu/"
-SRC_URI="http://www.mplayerhq.hu/MPlayer/releases/MPlayer-1.0rc4.tar.bz2"
-SRC_DIR="MPlayer-${PV}"
-#SRC_URI="mirror://mplayer/releases/mplayer-export-snapshot.tar.bz2"
-#SRC_DIR="mplayer-export-${PV:0:4}-${PV:4:2}-${PV:6:2}"
+#SRC_URI="http://www.mplayerhq.hu/MPlayer/releases/MPlayer-1.0rc4.tar.bz2"
+#SRC_DIR="MPlayer-${PV}"
+SRC_URI="mirror://gentoo/${P}.tar.xz"
 
 PATCH_URI="
-	1.0rc4-cygwin.patch
+	20120128-cygwin.patch
 	20101020-as-needed.patch
 "
 
@@ -22,7 +21,6 @@ myconf="
 
   --enable-mencoder
   --disable-gui
-  --enable-largefiles
 
   --disable-lirc
   --disable-lircc
@@ -50,9 +48,9 @@ myconf="
   --disable-rpath
   --disable-smb
 
+  --disable-ffmpeg_a
   --disable-xanim
   --disable-ass-internal
-  --disable-faad-internal
   --disable-dvdread-internal
   --disable-libdvdcss-internal
 
@@ -88,9 +86,9 @@ myconf="
   --disable-alsa
   --disable-coreaudio
   --disable-dart
+  --disable-esd
   --disable-jack
   --disable-kai
-  --disable-pulse
   --disable-sgiaudio
   --disable-sunaudio
 
@@ -111,7 +109,6 @@ src_compile() {
 	lndirs
 	cd ${B}
 	# http://lists.mplayerhq.hu/pipermail/mplayer-dev-eng/2006-November/047222.html
-	# -fno-common: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=37216
 	CFLAGS+=" -finline-functions -fomit-frame-pointer"
 	verbose ${S}/configure \
 		${myconf} \
@@ -143,6 +140,8 @@ EOT
 	doins ${S}/etc/codecs.conf
 	doins ${S}/etc/input.conf
 	doins ${S}/etc/menu.conf
+
+	make_etc_defaults /etc/mplayer
 
 	dobin ${S}/TOOLS/{aconvert,mencvcd,midentify}.sh
 }
