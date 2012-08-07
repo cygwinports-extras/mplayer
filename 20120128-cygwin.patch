@@ -39,6 +39,15 @@
    winvidix=yes
    vomodules="winvidix $vomodules"
    libs_mplayer="$libs_mplayer -lgdi32"
+@@ -5159,7 +5160,7 @@ EOF
+     _gl_egl_x11=yes
+     libs_mplayer="$libs_mplayer -lEGL $ld_dl"
+   fi
+-  if win32 && cc_check -DGL_WIN32 -lopengl32 ; then
++  if mingw32 && cc_check -DGL_WIN32 -lopengl32 ; then
+     _gl=yes
+     _gl_win32=yes
+     libs_mplayer="$libs_mplayer -lopengl32 -lgdi32"
 @@ -5688,7 +5689,7 @@ if test "$_vcd" = auto; then
    _vcd=no
    if linux || freebsd || netbsd || openbsd || dragonfly || bsdos || darwin || sunos || os2; then
@@ -99,6 +108,16 @@
  #include <byteswap.h>
  #define B2N_16(x) x = bswap_16(x)
  #define B2N_32(x) x = bswap_32(x)
+--- origsrc/MPlayer-1.1/libmpcodecs/ad_mpg123.c	2012-05-02 16:15:07.000000000 -0500
++++ src/MPlayer-1.1/libmpcodecs/ad_mpg123.c	2012-08-06 19:26:29.389885600 -0500
+@@ -46,6 +46,7 @@ LIBAD_EXTERN(mpg123)
+  * principle, but is not supported.
+  * So, please leave the check for MPG123_API_VERSION there, m-kay?
+  */
++#define MPG123_NO_LARGENAME
+ #include <mpg123.h>
+ 
+ /* Enable faster mode of operation with newer libmpg123, avoiding
 --- origsrc/mplayer-1.0_rc4_p20120128/libvo/video_out.c	2012-01-28 06:50:00.000000000 -0600
 +++ src/mplayer-1.0_rc4_p20120128/libvo/video_out.c	2012-02-12 16:39:12.007130900 -0600
 @@ -260,7 +260,7 @@ const vo_functions_t* const video_out_dr
@@ -168,17 +187,6 @@
      if (use_gui && !vo_init()) {
          mp_msg(MSGT_CPLAYER, MSGL_WARN, MSGTR_GuiNeedsX);
          use_gui = 0;
---- origsrc/mplayer-1.0_rc4_p20120128/path.c	2012-01-28 06:50:07.000000000 -0600
-+++ src/mplayer-1.0_rc4_p20120128/path.c	2012-02-12 16:40:37.384893100 -0600
-@@ -65,7 +65,7 @@ char *get_path(const char *filename){
- 	if ((homedir = getenv("MPLAYER_HOME")) != NULL)
- 		config_dir = "";
- 	else if ((homedir = getenv("HOME")) == NULL)
--#if defined(__MINGW32__) || defined(__CYGWIN__)
-+#if defined(__MINGW32__)
- 	/* Hack to get fonts etc. loaded outside of Cygwin environment. */
- 	{
- 		int i,imax=0;
 --- origsrc/mplayer-1.0_rc4_p20120128/stream/stream_vcd.c	2012-01-28 06:49:58.000000000 -0600
 +++ src/mplayer-1.0_rc4_p20120128/stream/stream_vcd.c	2012-02-12 16:41:14.743990800 -0600
 @@ -162,7 +162,7 @@ static int open_s(stream_t *stream,int m

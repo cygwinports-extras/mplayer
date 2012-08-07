@@ -1,8 +1,14 @@
-DESCRIPTION="MPlayer"
+CATEGORY="Audio Video"
+SUMMARY="Multimedia player and encoder"
+DESCRIPTION="MPlayer can play most standard video formats out of the box and
+almost all others with the help of external codecs. MPlayer currently
+works best from the command line, but visual feedback for many functions
+is available from its onscreen status display (OSD), which is also used
+for displaying subtitles. MPlayer also has a GUI with skin support and
+several unofficial alternative graphical frontends are available."
 HOMEPAGE="http://www.mplayerhq.hu/"
-#SRC_URI="http://www.mplayerhq.hu/MPlayer/releases/MPlayer-1.0rc4.tar.bz2"
-#SRC_DIR="MPlayer-${PV}"
-SRC_URI="mirror://gentoo/${P}.tar.xz"
+SRC_URI="http://www.mplayerhq.hu/MPlayer/releases/MPlayer-${PV}.tar.xz"
+SRC_DIR="MPlayer-${PV}"
 
 PATCH_URI="
 	20120128-cygwin.patch
@@ -20,7 +26,7 @@ myconf="
   --codecsdir=/usr/lib/win32
 
   --enable-mencoder
-  --disable-gui
+  --enable-gui
 
   --disable-lirc
   --disable-lircc
@@ -48,7 +54,7 @@ myconf="
   --disable-rpath
   --disable-smb
 
-  --disable-ffmpeg_a
+  --disable-ffmpeg_so
   --disable-xanim
   --disable-ass-internal
   --disable-dvdread-internal
@@ -72,6 +78,7 @@ myconf="
   --disable-ivtv
   --disable-kva
   --disable-mlib
+  --disable-mp3lib
   --disable-s3fb
   --disable-svga
   --disable-tdfxfb
