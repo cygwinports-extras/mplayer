@@ -1,3 +1,6 @@
+NAME="mplayer"
+VERSION=1.1
+RELEASE=2
 CATEGORY="Audio Video"
 SUMMARY="Multimedia player and encoder"
 DESCRIPTION="MPlayer can play most standard video formats out of the box and
@@ -13,6 +16,7 @@ SRC_DIR="MPlayer-${PV}"
 PATCH_URI="
 	20120128-cygwin.patch
 	20101020-as-needed.patch
+	20120602-mingw64-w32api.patch
 "
 
 # generally only disable undesired components; let autodetect do the rest
