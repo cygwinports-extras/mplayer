@@ -1,6 +1,6 @@
 NAME="mplayer"
 VERSION=1.1
-RELEASE=2
+RELEASE=3
 CATEGORY="Audio Video"
 SUMMARY="Multimedia player and encoder"
 DESCRIPTION="MPlayer can play most standard video formats out of the box and
