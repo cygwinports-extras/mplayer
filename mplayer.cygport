@@ -1,6 +1,6 @@
 NAME="mplayer"
-VERSION=1.1
-RELEASE=4
+VERSION=1.1.1
+RELEASE=1
 CATEGORY="Audio Video"
 SUMMARY="Multimedia player and encoder"
 DESCRIPTION="MPlayer can play most standard video formats out of the box and
@@ -10,8 +10,8 @@ is available from its onscreen status display (OSD), which is also used
 for displaying subtitles. MPlayer also has a GUI with skin support and
 several unofficial alternative graphical frontends are available."
 HOMEPAGE="http://www.mplayerhq.hu/"
-SRC_URI="http://www.mplayerhq.hu/MPlayer/releases/MPlayer-${PV}.tar.xz"
-SRC_DIR="MPlayer-${PV}"
+SRC_URI="http://www.mplayerhq.hu/MPlayer/releases/MPlayer-${VERSION}.tar.xz"
+SRC_DIR="MPlayer-${VERSION}"
 
 PATCH_URI="
 	20120128-cygwin.patch
