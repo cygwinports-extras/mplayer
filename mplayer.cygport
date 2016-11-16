@@ -1,6 +1,6 @@
 NAME="mplayer"
-VERSION=1.1.1
-RELEASE=4
+VERSION=1.2.1
+RELEASE=1
 CATEGORY="Audio Video"
 SUMMARY="Multimedia player"
 DESCRIPTION="MPlayer can play most standard video formats out of the box and
@@ -13,9 +13,7 @@ HOMEPAGE="http://www.mplayerhq.hu/"
 SRC_URI="http://www.mplayerhq.hu/MPlayer/releases/MPlayer-${VERSION}.tar.xz"
 SRC_DIR="MPlayer-${VERSION}"
 PATCH_URI="
-	20120128-cygwin.patch
-	20101020-as-needed.patch
-	20120602-mingw64-w32api.patch
+	1.2.1-cygwin.patch
 "
 
 PKG_NAMES="mplayer mplayer-common mplayer-gui mplayer-tools mencoder"
@@ -56,7 +54,6 @@ myconf="
   --disable-pvr
   --disable-winsock2_h
 
-  --disable-cdparanoia
   --disable-faac
   --disable-live
   --disable-macosx-finder
@@ -67,11 +64,9 @@ myconf="
   --disable-rpath
   --disable-smb
 
-  --disable-ffmpeg_so
+  --disable-ffmpeg_a
   --disable-xanim
   --disable-ass-internal
-  --disable-dvdread-internal
-  --disable-libdvdcss-internal
   --disable-libmpeg2-internal
 
   --disable-3dfx
@@ -92,7 +87,6 @@ myconf="
   --disable-ivtv
   --disable-kva
   --disable-mlib
-  --disable-mp3lib
   --disable-s3fb
   --disable-svga
   --disable-tdfxfb
@@ -130,7 +124,7 @@ src_compile() {
 	lndirs
 	cd ${B}
 	# http://lists.mplayerhq.hu/pipermail/mplayer-dev-eng/2006-November/047222.html
-	CFLAGS+=" -finline-functions -fomit-frame-pointer"
+	CFLAGS+=" -D_DEFAULT_SOURCE -finline-functions -fomit-frame-pointer"
 	verbose ${S}/configure \
 		${myconf} \
 		--disable-mencoder --enable-gui \

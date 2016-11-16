@@ -1,6 +1,6 @@
---- origsrc/mplayer-1.0_rc4_p20120128/configure	2012-02-12 16:43:34.825655900 -0600
-+++ src/mplayer-1.0_rc4_p20120128/configure	2012-02-12 16:43:29.914377200 -0600
-@@ -1562,6 +1562,10 @@ fi
+--- origsrc/MPlayer-1.2.1/configure	2016-01-08 06:39:01.000000000 -0600
++++ src/MPlayer-1.2.1/configure	2016-11-16 16:53:10.021040200 -0600
+@@ -1778,6 +1778,10 @@ fi
  
  if win32 ; then
    _exesuf=".exe"
@@ -10,8 +10,8 @@
 +if mingw32; then
    extra_cflags="$extra_cflags -fno-common"
    # -lwinmm is always needed for osdep/timer-win2.c
-   extra_ldflags="$extra_ldflags -lwinmm"
-@@ -1570,9 +1574,6 @@ if win32 ; then
+   timer_libs=-lwinmm
+@@ -1786,9 +1790,6 @@ if win32 ; then
    _priority=yes
    def_dos_paths="#define HAVE_DOS_PATHS 1"
    def_priority="#define CONFIG_PRIORITY 1"
@@ -21,7 +21,7 @@
    _getch=getch2-win.c
    shmem=yes
  fi
-@@ -1753,7 +1754,7 @@ if test "$_runtime_cpudetection" = no ;
+@@ -1905,7 +1906,7 @@ if test "$_runtime_cpudetection" = no ;
  
  # Cygwin has /proc/cpuinfo, but only supports Intel CPUs
  # FIXME: Remove the Cygwin check once AMD CPUs are supported
@@ -30,7 +30,7 @@
    # Linux with /proc mounted, extract CPU information from it
    _cpuinfo="cat /proc/cpuinfo"
  elif test -r /compat/linux/proc/cpuinfo && ! x86 ; then
-@@ -4569,7 +4570,7 @@ else
+@@ -4925,7 +4926,7 @@ else
    novomodules="cvidix $novomodules"
  fi
  
@@ -39,8 +39,8 @@
    winvidix=yes
    vomodules="winvidix $vomodules"
    libs_mplayer="$libs_mplayer -lgdi32"
-@@ -5159,7 +5160,7 @@ EOF
-     _gl_egl_x11=yes
+@@ -5494,7 +5495,7 @@ EOF
+     _gl_egl_android=yes
      libs_mplayer="$libs_mplayer -lEGL $ld_dl"
    fi
 -  if win32 && cc_check -DGL_WIN32 -lopengl32 ; then
@@ -48,35 +48,51 @@
      _gl=yes
      _gl_win32=yes
      libs_mplayer="$libs_mplayer -lopengl32 -lgdi32"
-@@ -5688,7 +5689,7 @@ if test "$_vcd" = auto; then
+@@ -6084,8 +6085,8 @@ if test "$_vcd" = auto; then
    _vcd=no
    if linux || freebsd || netbsd || openbsd || dragonfly || bsdos || darwin || sunos || os2; then
      _vcd=yes
 -  elif mingw32; then
+-  header_check ddk/ntddcdrm.h && _vcd=yes
 +  elif win32; then
-   header_check ddk/ntddcdrm.h && _vcd=yes
++  header_check ntddcdrm.h && _vcd=yes
    fi
  fi
-@@ -5777,7 +5778,7 @@ if test "$_libdvdcss_internal" = yes ; t
-     def_dvd_darwin='#define DARWIN_DVD_IOCTL'
-     extra_ldflags="$extra_ldflags -framework IOKit -framework Carbon"
-   elif cygwin ; then
--    cflags_libdvdcss="-DSYS_CYGWIN -DWIN32"
-+    cflags_libdvdcss="-DSYS_CYGWIN"
-   elif os2 ; then
-     cflags_libdvdcss="-DSYS_OS2"
-   fi
-@@ -7412,7 +7413,7 @@ if test "$_gui" = yes ; then
-   fi
+ if test "$_vcd" = yes; then
+@@ -7826,7 +7827,7 @@ if test "$_gui" = yes ; then
    test "$_freetype" = no && test "$_bitmap_font" = no &&
      die "The GUI requires either FreeType or bitmap font support."
--if ! win32 ; then
-+if ! mingw32 ; then
-   _gui_gtk=yes
-   test "$_x11" != yes && die "X11 support required for GUI compilation."
  
---- origsrc/mplayer-1.0_rc4_p20120128/libaf/af_ladspa.c	2012-01-28 06:50:07.000000000 -0600
-+++ src/mplayer-1.0_rc4_p20120128/libaf/af_ladspa.c	2012-02-12 16:38:37.194266400 -0600
+-  if ! win32 ; then
++  if ! mingw32 ; then
+     _gui_gtk=yes
+     test "$_x11" != yes && die "The GUI requires X11."
+ 
+@@ -7851,7 +7852,7 @@ int main(void) {
+   return exitvar;
+ }
+ EOF
+-      cc_check -lXext && _xshape=yes
++      cc_check -lXext -lX11 && _xshape=yes
+     fi
+     if test "$_xshape" = yes ; then
+       def_xshape='#define CONFIG_XSHAPE 1'
+@@ -7899,11 +7900,11 @@ EOF
+       die "GTK+ version 2 devel packages were not found (required for GUI)."
+     fi
+ 
+-  else #if ! win32
++  else #if ! mingw32
+     _gui_win32=yes
+     libs_mplayer="$libs_mplayer -lcomdlg32 -lcomctl32 -lshell32 -lkernel32"
+     def_gui='#define CONFIG_GUI 1'
+-  fi #if ! win32
++  fi #if ! mingw32
+ 
+ else #if test "$_gui"
+   def_gui='#undef CONFIG_GUI'
+--- origsrc/MPlayer-1.2.1/libaf/af_ladspa.c	2011-10-26 10:12:35.000000000 -0500
++++ src/MPlayer-1.2.1/libaf/af_ladspa.c	2016-11-16 16:09:08.238800400 -0600
 @@ -297,7 +297,7 @@ static void* mydlopen(const char *filena
      size_t filenamelen;
      void *result = NULL;
@@ -86,9 +102,9 @@
      /* For Windows there's only absolute path support.
       * If you have a Windows machine, feel free to fix this.
       * (path separator, shared objects extension, et cetera). */
---- origsrc/mplayer-1.0_rc4_p20120128/libao2/ao_sdl.c	2012-01-28 06:49:58.000000000 -0600
-+++ src/mplayer-1.0_rc4_p20120128/libao2/ao_sdl.c	2012-02-12 16:42:34.526399500 -0600
-@@ -54,7 +54,7 @@ LIBAO_EXTERN(sdl)
+--- origsrc/MPlayer-1.2.1/libao2/ao_sdl.c	2012-02-17 18:08:30.000000000 -0600
++++ src/MPlayer-1.2.1/libao2/ao_sdl.c	2016-11-16 16:09:08.248803000 -0600
+@@ -55,7 +55,7 @@ LIBAO_EXTERN(sdl)
  #undef USE_SDL_INTERNAL_MIXER
  
  // Samplesize used by the SDLlib AudioSpec struct
@@ -97,19 +113,8 @@
  #define SAMPLESIZE 2048
  #else
  #define SAMPLESIZE 1024
---- origsrc/mplayer-1.0_rc4_p20120128/libdvdread4/bswap.h	2012-01-28 06:50:09.000000000 -0600
-+++ src/mplayer-1.0_rc4_p20120128/libdvdread4/bswap.h	2012-02-12 16:38:55.868276500 -0600
-@@ -37,7 +37,7 @@
- #include <sys/param.h>
- #endif
- 
--#if defined(__linux__) || defined(__GLIBC__)
-+#if defined(__linux__) || defined(__GLIBC__) || defined(__CYGWIN__)
- #include <byteswap.h>
- #define B2N_16(x) x = bswap_16(x)
- #define B2N_32(x) x = bswap_32(x)
---- origsrc/MPlayer-1.1/libmpcodecs/ad_mpg123.c	2012-05-02 16:15:07.000000000 -0500
-+++ src/MPlayer-1.1/libmpcodecs/ad_mpg123.c	2012-08-06 19:26:29.389885600 -0500
+--- origsrc/MPlayer-1.2.1/libmpcodecs/ad_mpg123.c	2013-10-25 14:59:57.000000000 -0500
++++ src/MPlayer-1.2.1/libmpcodecs/ad_mpg123.c	2016-11-16 16:09:08.263387200 -0600
 @@ -46,6 +46,7 @@ LIBAD_EXTERN(mpg123)
   * principle, but is not supported.
   * So, please leave the check for MPG123_API_VERSION there, m-kay?
@@ -118,9 +123,9 @@
  #include <mpg123.h>
  
  /* Enable faster mode of operation with newer libmpg123, avoiding
---- origsrc/mplayer-1.0_rc4_p20120128/libvo/video_out.c	2012-01-28 06:50:00.000000000 -0600
-+++ src/mplayer-1.0_rc4_p20120128/libvo/video_out.c	2012-02-12 16:39:12.007130900 -0600
-@@ -260,7 +260,7 @@ const vo_functions_t* const video_out_dr
+--- origsrc/MPlayer-1.2.1/libvo/video_out.c	2015-02-27 12:14:02.000000000 -0600
++++ src/MPlayer-1.2.1/libvo/video_out.c	2016-11-16 16:09:08.275897800 -0600
+@@ -269,7 +269,7 @@ const vo_functions_t* const video_out_dr
  #ifdef CONFIG_X11
          &video_out_xvidix,
  #endif
@@ -129,9 +134,9 @@
          &video_out_winvidix,
  #endif
          &video_out_cvidix,
---- origsrc/mplayer-1.0_rc4_p20120128/mpcommon.c	2012-01-28 06:50:07.000000000 -0600
-+++ src/mplayer-1.0_rc4_p20120128/mpcommon.c	2012-02-12 17:58:47.822875700 -0600
-@@ -449,7 +449,7 @@ void common_preinit(void)
+--- origsrc/MPlayer-1.2.1/mpcommon.c	2014-02-02 13:18:31.000000000 -0600
++++ src/MPlayer-1.2.1/mpcommon.c	2016-11-16 16:09:08.288895100 -0600
+@@ -539,7 +539,7 @@ err_out:
   */
  static void sanitize_os(void)
  {
@@ -140,9 +145,9 @@
      HMODULE kernel32 = GetModuleHandle("Kernel32.dll");
      BOOL WINAPI (*setDEP)(DWORD) = NULL;
      BOOL WINAPI (*setDllDir)(LPCTSTR) = NULL;
---- origsrc/mplayer-1.0_rc4_p20120128/mplayer.c	2012-01-28 06:50:03.000000000 -0600
-+++ src/mplayer-1.0_rc4_p20120128/mplayer.c	2012-02-12 16:40:22.206051700 -0600
-@@ -32,7 +32,7 @@
+--- origsrc/MPlayer-1.2.1/mplayer.c	2015-06-10 16:17:35.000000000 -0500
++++ src/MPlayer-1.2.1/mplayer.c	2016-11-16 16:09:08.307899200 -0600
+@@ -33,7 +33,7 @@
  #include <sys/time.h>
  #include <sys/types.h>
  
@@ -151,7 +156,7 @@
  #define _UWIN 1  /*disable Non-underscored versions of non-ANSI functions as otherwise int eof would conflict with eof()*/
  #include <windows.h>
  #endif
-@@ -698,7 +698,7 @@ void exit_player_with_rc(enum exit_reaso
+@@ -708,7 +708,7 @@ void exit_player_with_rc(enum exit_reaso
      if (mpctx->user_muted && !mpctx->edl_muted)
          mixer_mute(&mpctx->mixer);
      uninit_player(INITIALIZED_ALL);
@@ -160,7 +165,7 @@
      timeEndPeriod(1);
  #endif
  #ifdef CONFIG_X11
-@@ -1205,7 +1205,7 @@ static void print_status(float a_pos, fl
+@@ -1218,7 +1218,7 @@ static void print_status(float a_pos, fl
          width = screen_width;
      else
          width = 80;
@@ -169,8 +174,8 @@
      /* Windows command line is broken (MinGW's rxvt works, but we
       * should not depend on that). */
      width--;
-@@ -2782,7 +2782,7 @@ int main(int argc, char *argv[])
-     }
+@@ -2826,7 +2826,7 @@ int main(int argc, char *argv[])
+     filename = mpctx->playtree_iter ? play_tree_iter_get_file(mpctx->playtree_iter, 1) : NULL;
  
      print_version("MPlayer");
 -#if (defined(__MINGW32__) || defined(__CYGWIN__)) && defined(CONFIG_GUI)
@@ -178,7 +183,7 @@
      void *runningmplayer = FindWindow("MPlayer GUI for Windows", "MPlayer for Windows");
      if (runningmplayer && filename && use_gui) {
          COPYDATASTRUCT csData;
-@@ -2805,7 +2805,7 @@ int main(int argc, char *argv[])
+@@ -2849,7 +2849,7 @@ int main(int argc, char *argv[])
          use_gui = 0;
      }
  #else
@@ -187,9 +192,20 @@
      if (use_gui && !vo_init()) {
          mp_msg(MSGT_CPLAYER, MSGL_WARN, MSGTR_GuiNeedsX);
          use_gui = 0;
---- origsrc/mplayer-1.0_rc4_p20120128/stream/stream_vcd.c	2012-01-28 06:49:58.000000000 -0600
-+++ src/mplayer-1.0_rc4_p20120128/stream/stream_vcd.c	2012-02-12 16:41:14.743990800 -0600
-@@ -162,7 +162,7 @@ static int open_s(stream_t *stream,int m
+--- origsrc/MPlayer-1.2.1/stream/stream_cddb.c	2014-04-06 13:48:45.000000000 -0500
++++ src/MPlayer-1.2.1/stream/stream_cddb.c	2016-11-16 16:09:18.129165400 -0600
+@@ -60,7 +60,7 @@
+ #elif defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__DragonFly__)
+ #include <sys/cdio.h>
+ #elif defined(__MINGW32__) || defined(__CYGWIN__)
+-#include <ddk/ntddcdrm.h>
++#include <ntddcdrm.h>
+ #elif defined(__bsdi__)
+ #include <dvd.h>
+ #elif defined(__APPLE__) || defined(__DARWIN__)
+--- origsrc/MPlayer-1.2.1/stream/stream_vcd.c	2015-12-29 12:21:40.000000000 -0600
++++ src/MPlayer-1.2.1/stream/stream_vcd.c	2016-11-16 16:09:08.317405800 -0600
+@@ -170,7 +170,7 @@ static int open_s(stream_t *stream,int m
        p->device = strdup(DEFAULT_CDROM_DEVICE);
    }
  
